@@ -1,0 +1,20 @@
+{
+  "name": "city-of-helsinki/wordpress-helfi-cookie-consent",
+  "main": "gulpfile.mjs",
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-polyfill": "^6.26.0",
+    "gulp": "^5.0.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^2.1.0",
+    "gulp-uglify": "^3.0.2",
+    "hds-js": "^4.6.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ]
+}

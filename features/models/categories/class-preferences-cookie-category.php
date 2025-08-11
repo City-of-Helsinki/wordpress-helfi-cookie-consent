@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types = 1);
+
+namespace CityOfHelsinki\WordPress\CookieConsent\Features\Models\Categories;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category;
+
+final class Preferences_Cookie_Category implements Cookie_Category
+{
+	public function name(): string
+	{
+		return 'preferences';
+	}
+
+	public function label(): string
+	{
+		return __( 'Preferences', 'wordpress-helfi-cookie-consent' );
+	}
+
+	public function description(): string
+	{
+		return __( 'Preferences description.', 'wordpress-helfi-cookie-consent' );
+	}
+
+	public function required(): bool
+	{
+		return false;
+	}
+}
