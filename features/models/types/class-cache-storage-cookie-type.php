@@ -9,17 +9,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Traits\Label_Translations;
 
 final class Cache_Storage_Cookie_Type implements Cookie_Type
 {
+	use Label_Translations;
+
+	protected array $labels = array(
+		'fi' => 'Cache Storage',
+		'sv' => 'Cache Storage',
+		'en' => 'Cache Storage',
+	);
+
+	public function __construct(
+		protected string $current_language
+	) {}
+
 	public function name(): string
 	{
 		return 'cachestorage';
 	}
 
-	public function label(): string
+	public function label( string $language = '' ): string
 	{
-		return __( 'Cache Storage', 'wordpress-helfi-cookie-consent' );
+		return $this->translated_label( $language, $this->current_language )
+			?: __( 'Cache Storage', 'wordpress-helfi-cookie-consent' );
 	}
 
 	public function code(): int

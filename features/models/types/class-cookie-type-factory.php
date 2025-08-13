@@ -17,6 +17,7 @@ final class Cookie_Type_Factory implements Factory
 	private array $class_map;
 
 	public function __construct(
+		protected string $current_language,
 		private Cache $cache
 	) {
 		$this->class_map = array(
@@ -51,7 +52,7 @@ final class Cookie_Type_Factory implements Factory
 	{
 		$class = $this->class_map[$name];
 
-		return new $class();
+		return new $class( $this->current_language );
 	}
 
 	private function default_item(): Cookie_Type

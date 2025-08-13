@@ -9,17 +9,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Traits\Label_Translations;
 
 final class Local_Storage_Cookie_Type implements Cookie_Type
 {
+	use Label_Translations;
+
+	protected array $labels = array(
+		'fi' => 'localStorage',
+		'sv' => 'localStorage',
+		'en' => 'localStorage',
+	);
+
+	public function __construct(
+		protected string $current_language
+	) {}
+
 	public function name(): string
 	{
 		return 'localstorage';
 	}
 
-	public function label(): string
+	public function label( string $language = '' ): string
 	{
-		return __( 'localStorage', 'wordpress-helfi-cookie-consent' );
+		return $this->translated_label( $language, $this->current_language )
+			?: __( 'localStorage', 'wordpress-helfi-cookie-consent' );
 	}
 
 	public function code(): int
