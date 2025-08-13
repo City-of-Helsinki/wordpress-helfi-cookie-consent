@@ -47,6 +47,8 @@ final class Complianz_Cookie_Database implements Cookie_Database
 				} else {
 					$cookie['category'] = 'unknown';
 				}
+
+				unset($cookie['purpose']);
 			}
 		);
 
