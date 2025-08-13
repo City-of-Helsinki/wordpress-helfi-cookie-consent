@@ -46,6 +46,14 @@ function register_rest_config(): void {
 function rest_config(): array {
 	$config = array(
 		'routes' => array(),
+		'currentLanguage' => \apply_filters(
+			'wordpress_helfi_cookie_consent_current_language',
+			'en'
+		),
+		'cookiesHandler' => \apply_filters(
+			'wordpress_helfi_cookie_consent_cookies_handler',
+			''
+		),
 	);
 
 	$namespace = route_namespace();
