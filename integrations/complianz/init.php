@@ -37,6 +37,13 @@ function init(): void {
 			10,
 			1
 		);
+
+		\add_filter(
+			'wordpress_helfi_cookie_consent_cookies_handler',
+			fn() => 'complianz',
+			10,
+			1
+		);
 	}
 }
 
@@ -64,7 +71,10 @@ function provide_cookie_adapter_factory(
 
 	if ( empty( $adapter ) ) {
 		$adapter = new Complianz_Cookie_Adapter_Factory(
-			substr( \get_locale(), 0, 2 ),
+			\apply_filters(
+				'wordpress_helfi_cookie_consent_current_language',
+				'en'
+			),
 			$categories,
 			$types
 		);
