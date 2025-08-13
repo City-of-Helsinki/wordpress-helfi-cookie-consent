@@ -32,5 +32,6 @@ function filter_names(): array {
 		'path_to_file',
 		'path_to_php_file',
 		'load_config',
+		'current_language',
 	);
 }
