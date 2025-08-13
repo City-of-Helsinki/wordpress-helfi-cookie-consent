@@ -19,6 +19,7 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Rest\Settings\Remove_Setting
 use CityOfHelsinki\WordPress\CookieConsent\Features\Rest\Settings\Required_Groups_Setting;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Rest\Settings\Robot_Cookies_Setting;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Rest\Settings\Site_Name_Setting;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Rest\Settings\Translations_Setting;
 use WP_Error;
 use WP_REST_Response;
 use WP_REST_Request;
@@ -66,6 +67,15 @@ class Settings_Rest_Controller
 		return \rest_ensure_response( $settings );
 	}
 
+	private function requestLanguage( WP_REST_Request $request ): string
+	{
+		return $request->get_param( 'lang' )
+			?: \apply_filters(
+				'wordpress_helfi_cookie_consent_current_language',
+				'en'
+			);
+	}
+
 	private function create_settings(): array
 	{
 		return array_map(
@@ -81,6 +91,7 @@ class Settings_Rest_Controller
 				Required_Groups_Setting::class,
 				Robot_Cookies_Setting::class,
 				Site_Name_Setting::class,
+				Translations_Setting::class,
 			)
 		);
 	}
