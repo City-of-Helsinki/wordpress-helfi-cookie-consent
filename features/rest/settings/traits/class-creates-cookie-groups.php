@@ -28,14 +28,14 @@ trait Creates_Cookie_Groups
 		return array(
 			'groupId' => $cookie_list->name(),
 			'title' => array(
-				'fi' => $cookie_list->label(),
-				'sv' => $cookie_list->label(),
-				'en' => $cookie_list->label(),
+				'fi' => $cookie_list->label( 'fi' ),
+				'sv' => $cookie_list->label( 'sv' ),
+				'en' => $cookie_list->label( 'en' ),
 			),
 			'description' => array(
-				'fi' => $cookie_list->description(),
-				'sv' => $cookie_list->description(),
-				'en' => $cookie_list->description(),
+				'fi' => $cookie_list->description( 'fi' ),
+				'sv' => $cookie_list->description( 'sv' ),
+				'en' => $cookie_list->description( 'en' ),
 			),
 			'cookies' => array_map(
 				array( $this, 'format_cookie' ),
@@ -50,14 +50,14 @@ trait Creates_Cookie_Groups
 			'name' => $cookie->name(),
 			'host' => $cookie->issuer(),
 			'description' => array(
-				'fi' => $cookie->description(),
-				'sv' => $cookie->description(),
-				'en' => $cookie->description(),
+				'fi' => $cookie->description( 'fi' ),
+				'sv' => $cookie->description( 'sv' ),
+				'en' => $cookie->description( 'en' ),
 			),
 			'expiration' => array(
-				'fi' => $cookie->retention(),
-				'sv' => $cookie->retention(),
-				'en' => $cookie->retention(),
+				'fi' => $cookie->retention( 'fi' ),
+				'sv' => $cookie->retention( 'sv' ),
+				'en' => $cookie->retention( 'en' ),
 			),
 			'storageType' => $cookie->type()->code(),
 		);
