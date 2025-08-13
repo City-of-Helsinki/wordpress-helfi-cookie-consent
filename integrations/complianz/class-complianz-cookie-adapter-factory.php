@@ -41,19 +41,13 @@ final class Complianz_Cookie_Adapter_Factory implements Cookie_Adapter_Factory
 
 	private function adapter( array $data ): Cookie_Adapter
 	{
-		return new Complianz_Cookie_Adapter( $data );
+		return new Complianz_Cookie_Adapter( $this->language, $data );
 	}
 
 	private function format_data( mixed $data ): array
 	{
 		if ( ! is_array( $data ) ) {
 			return array();
-		}
-
-		foreach ( $data as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$data[$key] = $value[$this->language] ?? $value['en'] ?? '';
-			}
 		}
 
 		$casts = array(
