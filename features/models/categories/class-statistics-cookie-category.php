@@ -9,22 +9,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Traits\Description_Translations;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Traits\Label_Translations;
 
 final class Statistics_Cookie_Category implements Cookie_Category
 {
+	use Description_Translations;
+	use Label_Translations;
+
+	protected array $labels = array(
+		'fi' => 'Tilastointi',
+		'sv' => 'Statistik',
+		'en' => 'Statistics',
+	);
+
+	protected array $description = array(
+		'fi' => 'Tilastointievästeiden keräämää tietoa käytetään verkkosivuston kehittämiseen.',
+		'sv' => 'De uppgifter statistikkakorna samlar in används för att utveckla webbplatsen.',
+		'en' => 'The information collected by statistics cookies is used for developing the website.',
+	);
+
+	public function __construct(
+		protected string $current_language
+	) {}
+
 	public function name(): string
 	{
 		return 'statistics';
 	}
 
-	public function label(): string
+	public function label( string $language = '' ): string
 	{
-		return __( 'Statistics', 'wordpress-helfi-cookie-consent' );
+		return $this->translated_label( $language, $this->current_language )
+			?: __( 'Statistics', 'wordpress-helfi-cookie-consent' );
 	}
 
-	public function description(): string
+	public function description( string $language = '' ): string
 	{
-		return __( 'Statistics description.', 'wordpress-helfi-cookie-consent' );
+		return $this->translated_description( $language, $this->current_language )
+			?: __( 'The information collected by statistics cookies is used for developing the website.', 'wordpress-helfi-cookie-consent' );
 	}
 
 	public function required(): bool
