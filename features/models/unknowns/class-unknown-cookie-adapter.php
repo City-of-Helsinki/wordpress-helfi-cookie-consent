@@ -33,12 +33,12 @@ final class Unknown_Cookie_Adapter implements Cookie_Adapter
 		return $this->data[__FUNCTION__];
 	}
 
-	public function description(): string
+	public function description( string $language = '' ): string
 	{
 		return $this->data[__FUNCTION__];
 	}
 
-	public function retention(): string
+	public function retention( string $language = '' ): string
 	{
 		return $this->data[__FUNCTION__];
 	}
