@@ -11,6 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 interface Cookie_Type
 {
 	public function name(): string;
-	public function label(): string;
+	public function label( string $language = '' ): string;
 	public function code(): int;
 }
