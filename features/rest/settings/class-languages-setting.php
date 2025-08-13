@@ -20,17 +20,17 @@ class Languages_Setting implements Setting_Interface
 		return array(
 			array(
 				'code' => 'fi',
-				'name' => __( 'Finnish' ),
+				'name' => 'Finnish',
 				'direction' => 'ltr',
 			),
 			array(
 				'code' => 'sv',
-				'name' => __( 'Swedish' ),
+				'name' => 'Swedish',
 				'direction' => 'ltr',
 			),
 			array(
 				'code' => 'en',
-				'name' => __( 'English' ),
+				'name' => 'English',
 				'direction' => 'ltr',
 			),
 		);
