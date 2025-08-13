@@ -85,7 +85,13 @@ function create_cookie_adapter_factory( Category_Factory $categories, Type_Facto
 }
 
 function create_cookie_category_factory(): Category_Factory {
-	static $factory = new Cookie_Category_Factory( new Cache() );
+	static $factory = new Cookie_Category_Factory(
+		\apply_filters(
+			'wordpress_helfi_cookie_consent_current_language',
+			'en'
+		),
+		new Cache()
+	);
 
 	return \apply_filters(
 		'wordpress_helfi_cookie_consent_cookie_category_factory',
@@ -94,7 +100,13 @@ function create_cookie_category_factory(): Category_Factory {
 }
 
 function create_cookie_type_factory(): Type_Factory {
-	static $factory = new Cookie_Type_Factory( new Cache() );
+	static $factory = new Cookie_Type_Factory(
+		\apply_filters(
+			'wordpress_helfi_cookie_consent_current_language',
+			'en'
+		),
+		new Cache()
+	);
 
 	return \apply_filters(
 		'wordpress_helfi_cookie_consent_cookie_type_factory',
