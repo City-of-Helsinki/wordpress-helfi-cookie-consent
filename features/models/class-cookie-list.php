@@ -27,14 +27,14 @@ final class Cookie_List
 		return $this->category->name();
 	}
 
-	public function label(): string
+	public function label( string $language = '' ): string
 	{
-		return $this->category->label();
+		return $this->category->label( $language );
 	}
 
-	public function description(): string
+	public function description( string $language = '' ): string
 	{
-		return $this->category->description();
+		return $this->category->description( $language );
 	}
 
 	public function required(): bool
