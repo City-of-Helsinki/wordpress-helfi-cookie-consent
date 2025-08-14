@@ -12,6 +12,7 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter_Fa
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category_Factory;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type_Factory;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Known_Cookie_Data;
 
 final class Complianz_Cookie_Adapter_Factory implements Cookie_Adapter_Factory
 {
@@ -21,16 +22,16 @@ final class Complianz_Cookie_Adapter_Factory implements Cookie_Adapter_Factory
 		private Cookie_Type_Factory $types,
 	) {}
 
-	public function create_consents_cookie(): Cookie_Adapter
+	public function create_known_cookie( Known_Cookie_Data $data ): Cookie_Adapter
 	{
 		return $this->adapter( array(
-			'service_name' => '',
-			'slug' => 'helfi-cookie-consents',
-			'name' => 'helfi-cookie-consents',
-			'cookie_function' => 'Sivusto käyttää tätä evästettä tietojen tallentamiseen siitä, ovatko kävijät antaneet hyväksyntänsä tai kieltäytyneet evästeiden käytöstä.',
-			'retention' => '100 päivää',
-			'type' => $this->types->from_string( 'cookie' ),
-			'category' => $this->categories->from_string( 'functional' ),
+			'service_name' => $data->issuer(),
+			'slug' => $data->name(),
+			'name' => $data->label(),
+			'cookie_function' => $data->descriptionTranslations(),
+			'retention' => $data->retentionTranslations(),
+			'type' => $this->types->from_string( $data->type() ),
+			'category' => $this->categories->from_string( $data->category() ),
 		) );
 	}
 
