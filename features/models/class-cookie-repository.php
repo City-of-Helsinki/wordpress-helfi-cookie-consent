@@ -33,20 +33,48 @@ final class Cookie_Repository
 	public function list_cookies(): array
 	{
 		if ( ! $this->cookies ) {
-			$this->cookies = array_reduce(
-				$this->known_cookies->list(),
-				function( array $cookies, Known_Cookie_Data $data ) {
-					$cookies[] = $this->factory->create_known_cookie( $data );
-					return $cookies;
-				},
-				array_map(
-					fn( $cookie ) => $this->factory->create_adapter( $cookie ),
-					$this->database->cookies()
+			$this->cookies = array_values(
+				array_merge(
+					$this->create_cookie_adapters(),
+					$this->create_known_cookies()
 				)
 			);
 		}
 
 		return $this->cookies;
+	}
+
+	private function create_known_cookies(): array
+	{
+		return array_reduce(
+			$this->known_cookies->list(),
+			function( array $cookies, Known_Cookie_Data $data ) {
+				$cookie = $this->factory->create_known_cookie( $data );
+				$cookies[$cookie->name()] = $cookie;
+
+				return $cookies;
+			},
+			array()
+		);
+	}
+
+	private function create_cookie_adapters(): array
+	{
+		return array_reduce(
+			$this->database->cookies(),
+			function( array $cookies, mixed $data ) {
+				$cookie = $this->create_cookie_adapter( $data );
+				$cookies[$cookie->name()] = $cookie;
+
+				return $cookies;
+			},
+			array()
+		);
+	}
+
+	private function create_cookie_adapter( mixed $data ): Cookie_Adapter
+	{
+		return $this->factory->create_adapter( $data );
 	}
 
 	public function cookie_lists(): Cookie_List_Collection
