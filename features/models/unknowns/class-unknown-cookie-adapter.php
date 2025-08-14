@@ -12,10 +12,12 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Traits\Description_Translations;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Traits\Retention_Translations;
 
 final class Unknown_Cookie_Adapter implements Cookie_Adapter
 {
 	use Description_Translations;
+	use Retention_Translations;
 
 	public function __construct(
 		protected string $current_language,
@@ -51,7 +53,8 @@ final class Unknown_Cookie_Adapter implements Cookie_Adapter
 
 	public function retention( string $language = '' ): string
 	{
-		return $this->data[__FUNCTION__];
+		return $this->translated_retention( $language, $this->current_language )
+			?: '';
 	}
 
 	public function type(): Cookie_Type
