@@ -20,6 +20,8 @@ function init(): void {
 		\add_filter( 'cmplz_document_html', __NAMESPACE__ . '\\replace_cookie_statement', 99999, 3 );
 
 		\add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\disable_complianz_styles', PHP_INT_MAX - 49 );
+
+		\remove_action( 'wp_head', array( \cmplz_banner_loader::this(), 'cookiebanner_css' ) );
 		\remove_action( 'wp_footer', array( \cmplz_banner_loader::this(), 'cookiebanner_html' ) );
 
 		\add_filter(
