@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Fallback_Language_Setting implements Setting_Interface
+final class Fallback_Language_Setting implements Setting_Interface
 {
 	public function name(): string
 	{
