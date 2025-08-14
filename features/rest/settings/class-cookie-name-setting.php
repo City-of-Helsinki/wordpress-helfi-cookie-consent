@@ -8,8 +8,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cookie_Name_Setting implements Setting_Interface
+use CityOfHelsinki\WordPress\CookieConsent\Features\Cookies\HDS_Cookie_Consent;
+
+final class Cookie_Name_Setting implements Setting_Interface
 {
+	private string $cookie_name;
+
+	public function __construct()
+	{
+		$this->cookie_name = (new HDS_Cookie_Consent)->name();
+	}
+
 	public function name(): string
 	{
 		return 'cookieName';
