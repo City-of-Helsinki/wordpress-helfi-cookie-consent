@@ -46,14 +46,12 @@ function register_rest_config(): void {
 function rest_config(): array {
 	$config = array(
 		'routes' => array(),
-		'currentLanguage' => \apply_filters(
-			'wordpress_helfi_cookie_consent_current_language',
-			'en'
+		'options' => array(
+			'language' => \esc_attr( current_language() ),
+			'settingsPageSelector' => \esc_attr( settings_element_id() ),
+			'submitEvent' => true,
 		),
-		'cookiesHandler' => \apply_filters(
-			'wordpress_helfi_cookie_consent_cookies_handler',
-			''
-		),
+		'cookiesHandler' => \esc_attr( cookies_handler() ),
 	);
 
 	$namespace = route_namespace();
@@ -69,6 +67,20 @@ function rest_config(): array {
 	}
 
 	return $config;
+}
+
+function settings_element_id(): string {
+	$id = \apply_filters( 'wordpress_helfi_cookie_consent_settings_element_id', '' );
+
+	return $id ? '#' . $id : '';
+}
+
+function cookies_handler(): string {
+	return \apply_filters( 'wordpress_helfi_cookie_consent_cookies_handler', '' );
+}
+
+function current_language(): string {
+	return \apply_filters( 'wordpress_helfi_cookie_consent_current_language', 'en' );
 }
 
 function route_namespace(): string {
