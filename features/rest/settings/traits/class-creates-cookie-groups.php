@@ -47,7 +47,7 @@ trait Creates_Cookie_Groups
 	protected function format_cookie( Cookie_Adapter $cookie ): array
 	{
 		return array(
-			'name' => $cookie->name(),
+			'name' => $cookie->label(),
 			'host' => $cookie->issuer(),
 			'description' => array(
 				'fi' => $cookie->description( 'fi' ),
