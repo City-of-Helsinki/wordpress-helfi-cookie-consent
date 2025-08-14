@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter_Factory;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category_Factory as Category_Factory;
-use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Consent_View;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Database;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type_Factory as Type_Factory;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Categories\Cookie_Category_Factory;
