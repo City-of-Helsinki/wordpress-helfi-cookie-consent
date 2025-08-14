@@ -50,14 +50,9 @@ function is_complianz_active(): bool {
 }
 
 function provide_cookie_database( ?Cookie_Database $database ): Complianz_Cookie_Database {
-	static $adapter;
+	global $wpdb;
 
-	if ( empty( $adapter ) ) {
-		global $wpdb;
-		$adapter = new Complianz_Cookie_Database( $wpdb );
-	}
-
-	return $adapter;
+	return new Complianz_Cookie_Database( $wpdb );
 }
 
 function provide_cookie_adapter_factory(
