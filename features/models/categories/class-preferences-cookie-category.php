@@ -23,7 +23,7 @@ final class Preferences_Cookie_Category implements Cookie_Category
 		'en' => 'Preferences',
 	);
 
-	protected array $description = array(
+	protected array $descriptions = array(
 		'fi' => 'Mieltymysevästeet mukauttavat sivuston ulkoasua ja toimintaa käyttäjän aiemman käytön perusteella.',
 		'sv' => 'Preferenscookies ändrar webbplatsens utseende och funktioner enligt användarens tidigare användning.',
 		'en' => 'Preference cookies modify the visuals and functions of the website based on the user\'s previous sessions.',

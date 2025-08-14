@@ -23,7 +23,7 @@ final class Marketing_Cookie_Category implements Cookie_Category
 		'en' => 'Marketing',
 	);
 
-	protected array $description = array(
+	protected array $descriptions = array(
 		'fi' => 'Markkinointievästeet ovat evästeitä tai muita paikallisia tallennusmuotoja, joita käytetään käyttäjäprofiilien luomiseen mainosten näyttämiseksi tai käyttäjän seuraamiseksi tällä verkkosivustolla tai useilla verkkosivustoilla vastaavissa markkinointitarkoituksissa.',
 		'sv' => 'Marknadsföringscookies är cookies eller någon annan form av lokal lagring som används för att skapa användarprofiler för att visa reklam eller för att spåra användaren på denna webbplats eller på flera webbplatser för liknande marknadsföringssyften.',
 		'en' => 'Marketing cookies are cookies or any other form of local storage, used to create user profiles to display advertising or to track the user on this website or across several websites for similar marketing purposes.',

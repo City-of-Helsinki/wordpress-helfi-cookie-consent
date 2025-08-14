@@ -23,7 +23,7 @@ final class Statistics_Anonymous_Cookie_Category implements Cookie_Category
 		'en' => 'Statistics (anonymous)',
 	);
 
-	protected array $description = array(
+	protected array $descriptions = array(
 		'fi' => 'Tilastointievästeiden keräämää tietoa käytetään verkkosivuston kehittämiseen.',
 		'sv' => 'De uppgifter statistikkakorna samlar in används för att utveckla webbplatsen.',
 		'en' => 'The information collected by statistics cookies is used for developing the website.',
