@@ -11,31 +11,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Traits\Description_Translations;
 
 final class Unknown_Cookie_Adapter implements Cookie_Adapter
 {
+	use Description_Translations;
+
 	public function __construct(
-		private array $data
+		protected string $current_language,
+		protected string $issuer,
+		protected string $name,
+		protected string $label,
+		protected array $descriptions,
+		protected array $retentions,
+		protected Cookie_Type $type,
+		protected Cookie_Category $category
 	) {}
 
 	public function issuer(): string
 	{
-		return $this->data[__FUNCTION__];
+		return $this->issuer;
 	}
 
 	public function name(): string
 	{
-		return $this->data[__FUNCTION__];
+		return $this->name;
 	}
 
 	public function label(): string
 	{
-		return $this->data[__FUNCTION__];
+		return $this->label;
 	}
 
 	public function description( string $language = '' ): string
 	{
-		return $this->data[__FUNCTION__];
+		return $this->translated_description( $language, $this->current_language )
+			?: '';
 	}
 
 	public function retention( string $language = '' ): string
@@ -45,11 +56,11 @@ final class Unknown_Cookie_Adapter implements Cookie_Adapter
 
 	public function type(): Cookie_Type
 	{
-		return $this->data[__FUNCTION__];
+		return $this->type;
 	}
 
 	public function category(): Cookie_Category
 	{
-		return $this->data[__FUNCTION__];
+		return $this->category;
 	}
 }
