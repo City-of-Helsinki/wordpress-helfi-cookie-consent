@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Cookie_Repository;
 
-class Groups_Whitelisted_For_Api_Setting implements Setting_Interface
+final class Groups_Whitelisted_For_Api_Setting implements Setting_Interface
 {
 	public function __construct(
 		private Cookie_Repository $repository
