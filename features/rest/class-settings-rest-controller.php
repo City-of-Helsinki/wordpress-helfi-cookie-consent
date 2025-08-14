@@ -25,7 +25,7 @@ use WP_REST_Response;
 use WP_REST_Request;
 use WP_REST_Server;
 
-class Settings_Rest_Controller
+final class Settings_Rest_Controller
 {
 	public function __construct(
 		private Rest_Controller_Config $config
