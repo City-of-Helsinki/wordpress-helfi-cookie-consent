@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Translations_Setting implements Setting_Interface
+final class Translations_Setting implements Setting_Interface
 {
 	public function name(): string
 	{
