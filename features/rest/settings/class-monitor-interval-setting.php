@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Monitor_Interval_Setting implements Setting_Interface
+final class Monitor_Interval_Setting implements Setting_Interface
 {
 	public function name(): string
 	{
