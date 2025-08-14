@@ -12,7 +12,7 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Cookie_Repository;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Cookie_List;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Rest\Settings\Traits\Creates_Cookie_Groups;
 
-class Optional_Groups_Setting implements Setting_Interface
+final class Optional_Groups_Setting implements Setting_Interface
 {
 	use Creates_Cookie_Groups;
 
