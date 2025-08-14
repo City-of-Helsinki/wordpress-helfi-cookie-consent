@@ -34,7 +34,7 @@ function init(): void {
 			'wordpress_helfi_cookie_consent_cookie_adapter_factory',
 			__NAMESPACE__ . '\\provide_cookie_adapter_factory',
 			10,
-			3
+			4
 		);
 
 		\add_filter(
@@ -64,22 +64,14 @@ function provide_cookie_database( ?Cookie_Database $database ): Complianz_Cookie
 function provide_cookie_adapter_factory(
 	?Cookie_Adapter_Factory $factory,
 	Cookie_Category_Factory $categories,
-	Cookie_Type_Factory $types
+	Cookie_Type_Factory $types,
+	string $current_language
 	): Complianz_Cookie_Adapter_Factory {
-	static $adapter;
-
-	if ( empty( $adapter ) ) {
-		$adapter = new Complianz_Cookie_Adapter_Factory(
-			\apply_filters(
-				'wordpress_helfi_cookie_consent_current_language',
-				'en'
-			),
-			$categories,
-			$types
-		);
-	}
-
-	return $adapter;
+	return new Complianz_Cookie_Adapter_Factory(
+		$current_language,
+		$categories,
+		$types
+	);
 }
 
 function disable_default_cookiebanner( string $path, string $file_name ): string {
