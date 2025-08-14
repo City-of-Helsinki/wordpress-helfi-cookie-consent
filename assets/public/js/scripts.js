@@ -21,12 +21,19 @@
       const allow = group => cmplz_set_consent(group, 'allow');
       const deny = group => cmplz_set_consent(group, 'deny');
       const denyAll = () => cmplz_deny_all();
+      const handleComplianzCategoryEnabled = () => {
+        if (hds.cookieConsent) {
+          hds.cookieConsent.setGroupsStatusToAccepted(event.detail.category);
+        }
+      };
       const handleConsentChanges = () => {
         if (hds.cookieConsent) {
+          document.removeEventListener('cmplz_enable_category', handleComplianzCategoryEnabled);
           hds.cookieConsent.getAllConsentStatuses().forEach(({
             consented,
             group
           }) => consented ? allow(group) : deny(group));
+          document.addEventListener('cmplz_enable_category', handleComplianzCategoryEnabled);
         }
       };
       window.addEventListener('hds-cookie-consent-ready', handleConsentChanges);
