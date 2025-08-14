@@ -18,7 +18,10 @@ function init(): void {
 	if ( is_complianz_active() ) {
 		\add_filter( 'cmplz_document_comment', '__return_empty_string' );
 		\add_filter( 'cmplz_banner_html', '__return_empty_string', 9999 );
+		\add_filter( 'cmplz_document_html', __NAMESPACE__ . '\\replace_cookie_statement', 99999, 3 );
 		\add_filter( 'cmplz_template_file', __NAMESPACE__ . '\\disable_default_cookiebanner', 9999, 2 );
+
+		\add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\disable_complianz_styles', PHP_INT_MAX - 49 );
 
 		\add_filter(
 			'wordpress_helfi_cookie_consent_cookie_database',
@@ -81,4 +84,22 @@ function provide_cookie_adapter_factory(
 
 function disable_default_cookiebanner( string $path, string $file_name ): string {
 	return 'cookiebanner.php' === $file_name ? '' : $path;
+}
+
+function replace_cookie_statement( string $html, string $type, int $post_id ): string {
+	if ( 'cookie-statement' !== $type ) {
+		return $html;
+	}
+
+	$id = \apply_filters( 'wordpress_helfi_cookie_consent_settings_element_id', '' );
+
+	return $id ? sprintf( '<div id="%s"></div>', \esc_attr( $id ) ) : '';
+}
+
+function disable_complianz_styles(): void {
+	\wp_dequeue_style( 'cmplz-cookie' );
+	\wp_dequeue_style( 'cmplz-document' );
+	\wp_dequeue_style( 'cmplz-document-grid' );
+
+	\add_filter( 'cmplz_custom_document_css', '__return_empty_string' );
 }
