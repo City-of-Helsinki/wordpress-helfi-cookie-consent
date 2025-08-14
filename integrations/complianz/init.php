@@ -12,11 +12,14 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter_Fa
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category_Factory;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Database;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type_Factory;
-use CityOfHelsinki\WordPress\CookieConsent\Integrations\Complianz\Banner\Complianz_Cookie_Banner_View;
 
 \add_action( 'wordpress_helfi_cookie_consent_loaded', __NAMESPACE__ . '\\init', 5 );
 function init(): void {
 	if ( is_complianz_active() ) {
+		\add_filter( 'cmplz_document_comment', '__return_empty_string' );
+		\add_filter( 'cmplz_banner_html', '__return_empty_string', 9999 );
+		\add_filter( 'cmplz_template_file', __NAMESPACE__ . '\\disable_default_cookiebanner', 9999, 2 );
+
 		\add_filter(
 			'wordpress_helfi_cookie_consent_cookie_database',
 			__NAMESPACE__ . '\\provide_cookie_database',
@@ -29,13 +32,6 @@ function init(): void {
 			__NAMESPACE__ . '\\provide_cookie_adapter_factory',
 			10,
 			3
-		);
-
-		\add_filter(
-			'wordpress_helfi_cookie_consent_views',
-			__NAMESPACE__ . '\\provide_cookie_consent_views',
-			10,
-			1
 		);
 
 		\add_filter(
@@ -83,8 +79,6 @@ function provide_cookie_adapter_factory(
 	return $adapter;
 }
 
-function provide_cookie_consent_views( array $views ): array {
-	$views[] = Complianz_Cookie_Banner_View::class;
-
-	return $views;
+function disable_default_cookiebanner( string $path, string $file_name ): string {
+	return 'cookiebanner.php' === $file_name ? '' : $path;
 }
