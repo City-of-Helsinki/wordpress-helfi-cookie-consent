@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Site_Name_Setting implements Setting_Interface
+final class Site_Name_Setting implements Setting_Interface
 {
 	public function name(): string
 	{
