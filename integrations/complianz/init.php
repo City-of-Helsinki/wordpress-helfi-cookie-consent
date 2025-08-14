@@ -44,6 +44,13 @@ function init(): void {
 			10,
 			1
 		);
+
+		\add_filter(
+			'wordpress_helfi_cookie_consent_rest_settings',
+			__NAMESPACE__ . '\\filter_rest_settings',
+			10,
+			1
+		);
 	}
 }
 
@@ -86,4 +93,15 @@ function disable_complianz_styles(): void {
 	\wp_dequeue_style( 'cmplz-document-grid' );
 
 	\add_filter( 'cmplz_custom_document_css', '__return_empty_string' );
+}
+
+function filter_rest_settings( array $settings ): array {
+	$settings['groupsWhitelistedForApi'] = array_unique(
+		array_merge(
+			$settings['groupsWhitelistedForApi'] ?? [],
+			array( 'functional', 'preferences', 'statistics', 'marketing' )
+		)
+	);
+
+	return $settings;
 }
