@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter_Factory;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Database;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Known_Cookie_Data;
 
 final class Cookie_Repository
 {
@@ -18,7 +19,8 @@ final class Cookie_Repository
 
 	public function __construct(
 		private Cookie_Database $database,
-		private Cookie_Adapter_Factory $factory
+		private Cookie_Adapter_Factory $factory,
+		private Known_Cookies $known_cookies
 	) {
 		$this->refresh();
 	}
@@ -31,12 +33,17 @@ final class Cookie_Repository
 	public function list_cookies(): array
 	{
 		if ( ! $this->cookies ) {
-			$this->cookies = array_map(
-				fn( $cookie ) => $this->factory->create_adapter( $cookie ),
-				$this->database->cookies()
+			$this->cookies = array_reduce(
+				$this->known_cookies->list(),
+				function( array $cookies, Known_Cookie_Data $data ) {
+					$cookies[] = $this->factory->create_known_cookie( $data );
+					return $cookies;
+				},
+				array_map(
+					fn( $cookie ) => $this->factory->create_adapter( $cookie ),
+					$this->database->cookies()
+				)
 			);
-
-			$this->cookies[] = $this->factory->create_consents_cookie();
 		}
 
 		return $this->cookies;
