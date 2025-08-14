@@ -12,44 +12,41 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter_Fa
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category_Factory;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type_Factory;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Known_Cookie_Data;
 
 final class Unknown_Cookie_Adapter_Factory implements Cookie_Adapter_Factory
 {
-	private Cookie_Adapter $adapter;
-	private Cookie_Adapter $consents;
-
 	public function __construct(
+		private string $current_language,
 		Cookie_Category_Factory $categories,
 		Cookie_Type_Factory $types,
-	) {
-		$this->adapter = new Unknown_Cookie_Adapter( array(
-			'issuer' => '',
-			'name' => 'unknown',
-			'label' => __( 'Unknown', 'wordpress-helfi-cookie-consent' ),
-			'description' => '',
-			'retention' => '',
-			'type' => $types->from_string( 'unknown' ),
-			'category' => $categories->from_string( 'unknown' ),
-		) );
+	) {}
 
-		$this->adapter = new Unknown_Cookie_Adapter( array(
-			'issuer' => '',
-			'name' => 'helfi-cookie-consents',
-			'label' => 'helfi-cookie-consents',
-			'description' => 'Sivusto käyttää tätä evästettä tietojen tallentamiseen siitä, ovatko kävijät antaneet hyväksyntänsä tai kieltäytyneet evästeiden käytöstä.',
-			'retention' => '100 päivää',
-			'type' => $types->from_string( 'unknown' ),
-			'category' => $categories->from_string( 'unknown' ),
-		) );
-	}
-
-	public function create_consents_cookie(): Cookie_Adapter
+	public function create_known_cookie( Known_Cookie_Data $data ): Cookie_Adapter
 	{
-		return $this->consents;
+		return new Default_Cookie_Adapter( ...array(
+			'current_language' => $this->current_language,
+			'issuer' => $data->issuer(),
+			'name' => $data->name(),
+			'label' => $data->label(),
+			'descriptions' => $data->descriptionTranslations(),
+			'retentions' => $data->retentionTranslations(),
+			'type' => $types->from_string( $data->type() ),
+			'category' => $categories->from_string( $data->category() ),
+		) );
 	}
 
 	public function create_adapter( mixed $data ): Cookie_Adapter
 	{
-		return $this->adapter;
+		return new Default_Cookie_Adapter( ...array(
+			'current_language' => $this->current_language,
+			'issuer' => '',
+			'name' => 'unknown',
+			'label' => __( 'Unknown', 'wordpress-helfi-cookie-consent' ),
+			'descriptions' => array(),
+			'retentions' => array(),
+			'type' => $types->from_string( 'unknown' ),
+			'category' => $categories->from_string( 'unknown' ),
+		) );
 	}
 }
