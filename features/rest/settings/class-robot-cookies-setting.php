@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Cookie_Repository;
 
-class Robot_Cookies_Setting implements Setting_Interface
+final class Robot_Cookies_Setting implements Setting_Interface
 {
 	public function __construct(
 		private Cookie_Repository $repository
