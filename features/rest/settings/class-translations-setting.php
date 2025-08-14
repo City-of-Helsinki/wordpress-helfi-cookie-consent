@@ -108,11 +108,10 @@ class Translations_Setting implements Setting_Interface
 
 	private function description(): array
 	{
-		// TODO: from site settings
 		return array(
-			'fi' => 'Tämä sivusto käyttää välttämättömiä evästeitä sivun perustoimintojen ja suorituskyvyn varmistamiseksi. Lisäksi käytämme kohdennusevästeitä käyttäjäkokemuksen parantamiseksi, analytiikkaan ja yksilöidyn sisällön näyttämiseen.',
-	        'sv' => 'Denna webbplats använder obligatoriska kakor för att säkerställa de grundläggande funktionerna och prestandan. Dessutom använder vi inriktningskakor för bättre användarupplevelse, analytik och individualiserat innehåll.',
-	        'en' => 'This website uses required cookies to ensure the basic functionality and performance. In addition, we use targeting cookies to improve the user experience, perform analytics and display personalised content.'
+			'fi' => 'Käytämme sivustollamme evästeitä. Evästeiden tarkoituksena on parantaa sivuston sisältöjä ja suorituskykyä. Evästeistä saatavan palautteen avulla pystymme kehittämään sivustoa ja tarjoamaan paremmin kaupunkilaisten tarpeisiin vastaavaa tietoa. Evästeasetuksista voit lukea lisätietoja käytetyistä evästeistä, hyväksyä tai estää niiden käytön. Voit myös muuttaa evästeasetuksia aina halutessasi.',
+	        'sv' => 'Vi använder kakor på vår webbplats. Syftet med kakorna är att förbättra webbplatsens innehåll och prestanda. Med hjälp av responsen kan vi utveckla webbplatsen och erbjuda information som bättre möter stadsbornas behov. I kakinställningarna kan du läsa mer om vilka kakor som används samt godkänna eller hindra användningen av dem. Du kan även ändra kakinställningarna när du vill.',
+	        'en' => 'We use cookies on our website. The purpose of cookies is to improve the content and performance of the website. With the feedback gained from cookies, we are able to develop the website and offer information that meets the needs of the city\'s residents better. In the cookie settings, you can find more information on the cookies used and accept or reject their use. You can also change the cookie settings whenever you wish.'
 		);
 	}
 
