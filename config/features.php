@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 return array(
 	'models' => 'providers',
+	'notices' => 'init',
 	'views' => 'init',
 	'rest' => 'init',
 );
