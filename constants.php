@@ -28,6 +28,7 @@ function define_constants(string $file) : void {
 	define( __NAMESPACE__ . '\\PLUGIN_BASENAME', $basename );
 	define( __NAMESPACE__ . '\\PLUGIN_SLUG', str_replace( '-', '_', PLUGIN_DIRNAME ) );
 	define( __NAMESPACE__ . '\\PLUGIN_NAME', $dirbasename . DIRECTORY_SEPARATOR . $basename );
+	define( __NAMESPACE__ . '\\PLUGIN_TITLE', $pluginData[ 'Name' ] );
 	define( __NAMESPACE__ . '\\PLUGIN_URL', plugin_dir_url( $file ) );
 }
 
@@ -36,6 +37,10 @@ function define_constants(string $file) : void {
   */
 function plugin_version() : string {
 	return PLUGIN_VERSION;
+}
+
+function plugin_title() : string {
+	return PLUGIN_TITLE;
 }
 
 function plugin_main_file() : string {
