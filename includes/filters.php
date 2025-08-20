@@ -23,6 +23,7 @@ function filter_names(): array {
 		'plugin_basename',
 		'plugin_slug',
 		'plugin_name',
+		'plugin_title',
 		'plugin_url',
 		'is_debug',
 		'asset_version',
