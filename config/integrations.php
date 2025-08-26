@@ -6,4 +6,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 return array(
 	'complianz' => 'init',
+	'polylang' => 'init',
 );
