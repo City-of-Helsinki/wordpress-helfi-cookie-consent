@@ -36,7 +36,7 @@ final class Cookie_Policy_Page implements Policy_Page
 
 	public function title(): string
 	{
-		return __( 'Cookie Policy', 'wordpress-helfi-cookie-consent' );
+		return __( 'Cookie settings', 'wordpress-helfi-cookie-consent' );
 	}
 
 	public function content(): string
