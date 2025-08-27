@@ -47,7 +47,7 @@ final class Functional_Cookie_Category implements Cookie_Category
 	public function description( string $language = '' ): string
 	{
 		return $this->translated_description( $language, $this->current_language )
-			?: __( 'Functional description.', 'wordpress-helfi-cookie-consent' );
+			?: '';
 	}
 
 	public function required(): bool
