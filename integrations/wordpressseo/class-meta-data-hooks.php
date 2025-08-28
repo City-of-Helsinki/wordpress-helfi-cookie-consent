@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Policy_Page;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
-class Meta_Data_Hooks
+final class Meta_Data_Hooks
 {
 	public function __construct(
 		private string $policy_page_title,
