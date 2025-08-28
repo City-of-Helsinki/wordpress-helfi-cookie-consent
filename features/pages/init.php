@@ -49,6 +49,11 @@ function init(): void {
 		array( $hooks, 'policy_page_title' ),
 		9999, 2
 	);
+
+	\add_action(
+		'wordpress_helfi_cookie_consent_add_nav_menu_policy_pages',
+		array( $hooks, 'create_nav_menu_policy_pages' ),
+	);
 }
 
 function create_custom_page_hooks( Policy_Page_Factory $factory, string $current_language ): Custom_Page_Hooks {
