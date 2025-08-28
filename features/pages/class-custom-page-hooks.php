@@ -68,22 +68,57 @@ final class Custom_Page_Hooks
 
 	public function policy_page_template( string $template ): string
 	{
-		$page = $this->factory->from_item_type(
-			\get_query_var( $this->factory->query_var(), '' )
-		);
+		$page = $this->get_current_policy_page();
 
 		return $page ? $page->template_path() : $template;
 	}
 
 	public function policy_page_content(): void
 	{
-		$page = $this->factory->from_item_type(
-			\get_query_var( $this->factory->query_var(), '' )
-		);
+		$page = $this->get_current_policy_page();
 
 		if ( $page ) {
 			echo $page->content();
 		}
+	}
+
+	public function current_policy_page( ?Policy_Page $page ): ?Policy_Page
+	{
+		return $this->get_current_policy_page() ?: $page;
+	}
+
+	public function document_title( string $title ): string
+	{
+		return apply_filters(
+			'wordpress_helfi_cookie_consent_policy_page_meta_title',
+			$title,
+			' | '
+		);
+	}
+
+	public function policy_page_title( string $title, string $separator ): string
+	{
+		$page = $this->get_current_policy_page();
+
+		return $page
+			? implode( $separator, $this->policy_page_title_parts( $page ) )
+			: $title;
+	}
+
+	private function policy_page_title_parts( Policy_Page $page ): array
+	{
+		return array(
+			$page->title(),
+			\get_bloginfo( 'name' ),
+			__( 'City of Helsinki', 'wordpress-helfi-cookie-consent' )
+		);
+	}
+
+	private function get_current_policy_page(): ?Policy_Page
+	{
+		return $this->factory->from_item_type(
+			\get_query_var( $this->factory->query_var(), '' )
+		);
 	}
 
 	private function register_rewrite_tag( Rewrite_Tag $tag ): void
