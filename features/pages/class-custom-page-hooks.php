@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Policy_Page;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Nav_Menu;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Rule;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Tag;
 
@@ -22,6 +23,26 @@ final class Custom_Page_Hooks
 	public function helfi_custom_pages(): array
 	{
 		return $this->factory->all();
+	}
+
+	public function create_nav_menu_policy_pages( string $location ): void
+	{
+		$menu = new Nav_Menu( $location );
+
+		if ( $menu->id() ) {
+			$item_types = array_flip( $menu->item_types() );
+
+			foreach( $this->factory->all() as $page ) {
+				if ( ! isset( $item_types[$page->type()] ) ) {
+					\wp_update_nav_menu_item( $menu->id(), 0, array(
+						'menu-item-title' => $page->title(),
+						'menu-item-url' => '#',
+						'menu-item-type' => $page->type(),
+						'menu-item-status' => 'publish',
+					) );
+				}
+			}
+		}
 	}
 
 	public function wp_setup_nav_menu_item( $menu_item )
