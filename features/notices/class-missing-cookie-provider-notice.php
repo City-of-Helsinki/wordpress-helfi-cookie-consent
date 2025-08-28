@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Missing_Cookie_Provider_Notice
+final class Missing_Cookie_Provider_Notice
 {
 	public function type(): string
 	{
