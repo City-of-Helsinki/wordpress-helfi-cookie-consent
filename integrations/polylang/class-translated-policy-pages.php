@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Policy_Page;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Rule;
 
-class Translated_Policy_Pages
+final class Translated_Policy_Pages
 {
 	private array $page_slugs;
 	private array $query_vars;
