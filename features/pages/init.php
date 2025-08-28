@@ -21,13 +21,34 @@ function init(): void {
 		\apply_filters( 'wordpress_helfi_cookie_consent_current_language', 'en' )
 	);
 
+	\add_filter(
+		'wordpress_helfi_cookie_consent_current_policy_page',
+		array( $hooks, 'current_policy_page' ),
+		1
+	);
+
 	\add_filter( 'wp_setup_nav_menu_item', array( $hooks, 'wp_setup_nav_menu_item' ) );
 	\add_filter( 'wp_nav_menu_objects', array( $hooks, 'wp_nav_menu_objects' ) );
-	\add_filter( 'wordpress_helfi_cookie_consent_nav_menu_metabox_pages', array( $hooks, 'helfi_custom_pages' ) );
+	\add_filter(
+		'wordpress_helfi_cookie_consent_nav_menu_metabox_pages',
+		array( $hooks, 'helfi_custom_pages' )
+	);
 
 	\add_action( 'init', array( $hooks, 'register_rewrites' ) );
 	\add_action( 'template_include', array( $hooks, 'policy_page_template' ) );
-	\add_action( 'wordpress_helfi_cookie_consent_page', array( $hooks, 'policy_page_content' ) );
+	\add_action(
+		'wordpress_helfi_cookie_consent_page',
+		array( $hooks, 'policy_page_content' )
+	);
+
+	\add_filter( 'document_title', array( $hooks, 'document_title' ), 9999, 1 );
+	\add_filter( 'wp_title', array( $hooks, 'document_title' ), 9999, 1 );
+
+	\add_filter(
+		'wordpress_helfi_cookie_consent_policy_page_meta_title',
+		array( $hooks, 'policy_page_title' ),
+		9999, 2
+	);
 }
 
 function create_custom_page_hooks( Policy_Page_Factory $factory, string $current_language ): Custom_Page_Hooks {
