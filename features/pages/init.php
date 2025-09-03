@@ -15,6 +15,9 @@ use WP_Query;
 \add_action( 'wordpress_helfi_cookie_consent_activate', __NAMESPACE__ . '\\clear_rewrite_rules' );
 \add_action( 'wordpress_helfi_cookie_consent_deactivate', __NAMESPACE__ . '\\clear_rewrite_rules' );
 
+/**
+ * @source https://developer.wordpress.org/reference/functions/flush_rewrite_rules/#comment-4023
+ */
 function clear_rewrite_rules(): void {
 	\delete_option( 'rewrite_rules' );
 }
