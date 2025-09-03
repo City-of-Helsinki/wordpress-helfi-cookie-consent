@@ -12,6 +12,13 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Cache;
 use WP_Post;
 use WP_Query;
 
+\add_action( 'wordpress_helfi_cookie_consent_activate', __NAMESPACE__ . '\\clear_rewrite_rules' );
+\add_action( 'wordpress_helfi_cookie_consent_deactivate', __NAMESPACE__ . '\\clear_rewrite_rules' );
+
+function clear_rewrite_rules(): void {
+	\delete_option( 'rewrite_rules' );
+}
+
 \add_action( 'wordpress_helfi_cookie_consent_loaded', __NAMESPACE__ . '\\init' );
 function init(): void {
 	\add_action( 'admin_head-nav-menus.php', __NAMESPACE__ . '\\document_pages_metabox' );
