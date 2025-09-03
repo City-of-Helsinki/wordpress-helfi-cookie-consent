@@ -8,7 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class Missing_Cookie_Provider_Notice
+use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Admin_Notice;
+
+final class Missing_Cookie_Provider_Notice implements Admin_Notice
 {
 	public function type(): string
 	{
