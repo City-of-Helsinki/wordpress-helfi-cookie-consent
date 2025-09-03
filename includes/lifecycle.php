@@ -9,33 +9,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function setup() : void {
-	if ( ! did_action( 'wordpress_helfi_cookie_consent_setup' ) ) {
-		do_action( 'wordpress_helfi_cookie_consent_setup' );
+	if ( ! \did_action( 'wordpress_helfi_cookie_consent_setup' ) ) {
+		\do_action( 'wordpress_helfi_cookie_consent_setup' );
 	}
 }
 
 function loaded() : void {
-	do_action( 'wordpress_helfi_cookie_consent_loaded' );
+	if ( ! \did_action( 'wordpress_helfi_cookie_consent_loaded' ) ) {
+		\do_action( 'wordpress_helfi_cookie_consent_loaded' );
+	}
 }
 
 function init() : void {
-	do_action( 'wordpress_helfi_cookie_consent_init' );
+	if ( ! \did_action( 'wordpress_helfi_cookie_consent_init' ) ) {
+		\do_action( 'wordpress_helfi_cookie_consent_init' );
+	}
 }
 
 function activate() : void {
 	setup();
 
-	do_action( 'wordpress_helfi_cookie_consent_activate' );
+	\do_action( 'wordpress_helfi_cookie_consent_activate' );
 }
 
 function deactivate() : void {
 	setup();
 
-	do_action( 'wordpress_helfi_cookie_consent_deactivate' );
+	\do_action( 'wordpress_helfi_cookie_consent_deactivate' );
 }
 
 function uninstall() : void {
 	setup();
 
-	do_action( 'wordpress_helfi_cookie_consent_uninstall' );
+	\do_action( 'wordpress_helfi_cookie_consent_uninstall' );
 }
