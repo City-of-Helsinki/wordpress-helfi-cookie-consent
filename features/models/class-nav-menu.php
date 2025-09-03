@@ -11,11 +11,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Nav_Menu
 {
 	private int $menu_id;
+	private string $menu_name;
 
 	public function __construct(
 		private string $location
 	) {
 		$this->menu_id = $this->determine_menu_id();
+		$this->menu_name = $this->determine_menu_name();
 	}
 
 	public function location(): string
@@ -26,6 +28,11 @@ final class Nav_Menu
 	public function id(): int
 	{
 		return $this->menu_id;
+	}
+
+	public function name(): string
+	{
+		return $this->menu_name;
 	}
 
 	public function items(): array
@@ -49,5 +56,16 @@ final class Nav_Menu
 		}
 
 		return 0;
+	}
+
+	private function determine_menu_name(): string
+	{
+		if ( $this->menu_id ) {
+			$menu = \wp_get_nav_menu_object( $this->menu_id );
+
+			return ! empty( $menu->name ) ? $menu->name : '';
+		}
+
+		return '';
 	}
 }
