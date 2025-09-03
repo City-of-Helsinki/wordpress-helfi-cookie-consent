@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 10:58+0000\n"
+"POT-Creation-Date: 2025-09-03 07:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -21,11 +21,17 @@ msgid "Cache Storage"
 msgstr ""
 
 #. Author of the plugin
+#: features/pages/class-custom-page-hooks.php:151
 msgid "City of Helsinki"
 msgstr ""
 
 #: features/models/types/class-cookie-cookie-type.php:36
 msgid "Cookie"
+msgstr ""
+
+#: features/pages/class-nav-menu-policy-pages-added-notice.php:43
+#, php-format
+msgid "Cookie policy pages added to the \"%s\" navigation menu."
 msgstr ""
 
 #: features/pages/class-cookie-policy-page.php:39
@@ -36,7 +42,7 @@ msgstr ""
 msgid "Functional"
 msgstr ""
 
-#: features/pages/init.php:44
+#: features/pages/init.php:70
 msgid "Helsinki Cookie Consent"
 msgstr ""
 
@@ -63,7 +69,7 @@ msgid ""
 "website or across several websites for similar marketing purposes."
 msgstr ""
 
-#: features/notices/class-missing-cookie-provider-notice.php:38
+#: features/notices/class-missing-cookie-provider-notice.php:40
 msgid ""
 "Please activate one of the supported cookie providers to use this plugin."
 msgstr ""
@@ -90,17 +96,17 @@ msgstr ""
 msgid "Statistics (anonymous)"
 msgstr ""
 
-#: features/notices/class-missing-cookie-provider-notice.php:49
+#: features/notices/class-missing-cookie-provider-notice.php:51
 msgid "Supported cookie providers"
 msgstr ""
 
-#: features/notices/class-missing-cookie-provider-notice.php:37
+#: features/notices/class-missing-cookie-provider-notice.php:39
 msgid ""
 "The cookie banner won't be able to group and list the cookies used on this "
 "site without a cookie provider."
 msgstr ""
 
-#: features/notices/class-missing-cookie-provider-notice.php:36
+#: features/notices/class-missing-cookie-provider-notice.php:38
 msgid "The cookie consent is missing a cookie provider."
 msgstr ""
 
