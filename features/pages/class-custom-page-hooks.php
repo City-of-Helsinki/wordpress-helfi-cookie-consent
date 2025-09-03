@@ -31,16 +31,33 @@ final class Custom_Page_Hooks
 
 		if ( $menu->id() ) {
 			$item_types = array_flip( $menu->item_types() );
+			$pages_added = false;
 
 			foreach( $this->factory->all() as $page ) {
 				if ( ! isset( $item_types[$page->type()] ) ) {
-					\wp_update_nav_menu_item( $menu->id(), 0, array(
+					$item_id = \wp_update_nav_menu_item( $menu->id(), 0, array(
 						'menu-item-title' => $page->title(),
 						'menu-item-url' => '#',
 						'menu-item-type' => $page->type(),
 						'menu-item-status' => 'publish',
 					) );
+
+					if ( is_int( $item_id ) && $item_id ) {
+						$pages_added = true;
+					}
 				}
+			}
+
+			if ( $pages_added ) {
+				\do_action(
+					'wordpress_helfi_cookie_consent_nav_menu_policy_pages_added',
+					$location
+				);
+
+				\do_action(
+					'wordpress_helfi_cookie_consent_add_admin_notice',
+					new Nav_Menu_Policy_Pages_Added_Notice( $menu )
+				);
 			}
 		}
 	}
