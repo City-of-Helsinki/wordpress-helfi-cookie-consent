@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-27 10:56+0000\n"
-"PO-Revision-Date: 2025-08-27 11:02+0000\n"
+"PO-Revision-Date: 2025-09-03 07:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: Suomi\n"
 "Language: fi\n"
@@ -20,12 +20,18 @@ msgid "Cache Storage"
 msgstr "Cache Storage"
 
 #. Author of the plugin
+#: features/pages/class-custom-page-hooks.php:151
 msgid "City of Helsinki"
 msgstr "Helsingin kaupunki"
 
 #: features/models/types/class-cookie-cookie-type.php:36
 msgid "Cookie"
 msgstr "Eväste"
+
+#: features/pages/class-nav-menu-policy-pages-added-notice.php:43
+#, php-format
+msgid "Cookie policy pages added to the \"%s\" navigation menu."
+msgstr "Evästekäytäntösivut lisätty navigointivalikkoon \"%s\"."
 
 #: features/pages/class-cookie-policy-page.php:39
 msgid "Cookie settings"
@@ -35,7 +41,7 @@ msgstr "Evästeasetukset"
 msgid "Functional"
 msgstr "Toiminnallinen"
 
-#: features/pages/init.php:44
+#: features/pages/init.php:70
 msgid "Helsinki Cookie Consent"
 msgstr "Helsinki Evästehallinta"
 
@@ -66,7 +72,7 @@ msgstr ""
 "käyttäjän seuraamiseksi tällä verkkosivustolla tai useilla verkkosivustoilla "
 "vastaavissa markkinointitarkoituksissa."
 
-#: features/notices/class-missing-cookie-provider-notice.php:38
+#: features/notices/class-missing-cookie-provider-notice.php:40
 msgid ""
 "Please activate one of the supported cookie providers to use this plugin."
 msgstr ""
@@ -97,11 +103,11 @@ msgstr "Tilastointi"
 msgid "Statistics (anonymous)"
 msgstr "Tilastointi (anonyymi)"
 
-#: features/notices/class-missing-cookie-provider-notice.php:49
+#: features/notices/class-missing-cookie-provider-notice.php:51
 msgid "Supported cookie providers"
 msgstr "Tuetut evästetarjoajat"
 
-#: features/notices/class-missing-cookie-provider-notice.php:37
+#: features/notices/class-missing-cookie-provider-notice.php:39
 msgid ""
 "The cookie banner won't be able to group and list the cookies used on this "
 "site without a cookie provider."
@@ -109,7 +115,7 @@ msgstr ""
 "Evästebanneri ei voi ryhmitellä ja listata sivustolla käytettyjä evästeitä "
 "ilman evästetarjoajaa."
 
-#: features/notices/class-missing-cookie-provider-notice.php:36
+#: features/notices/class-missing-cookie-provider-notice.php:38
 msgid "The cookie consent is missing a cookie provider."
 msgstr "Evästehallinnalta puuttuu evästeiden tarjoaja."
 

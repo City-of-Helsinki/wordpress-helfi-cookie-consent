@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-27 10:58+0000\n"
-"PO-Revision-Date: 2025-08-27 11:06+0000\n"
+"PO-Revision-Date: 2025-09-03 07:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -20,12 +20,18 @@ msgid "Cache Storage"
 msgstr "Cache Storage"
 
 #. Author of the plugin
+#: features/pages/class-custom-page-hooks.php:151
 msgid "City of Helsinki"
 msgstr "Helsingfors stad"
 
 #: features/models/types/class-cookie-cookie-type.php:36
 msgid "Cookie"
 msgstr "Cookie"
+
+#: features/pages/class-nav-menu-policy-pages-added-notice.php:43
+#, php-format
+msgid "Cookie policy pages added to the \"%s\" navigation menu."
+msgstr "Sidor om cookiepolicy har lagts till i navigeringsmenyn \"%s\"."
 
 #: features/pages/class-cookie-policy-page.php:39
 msgid "Cookie settings"
@@ -36,7 +42,7 @@ msgstr ""
 msgid "Functional"
 msgstr "Funktionell"
 
-#: features/pages/init.php:44
+#: features/pages/init.php:70
 msgid "Helsinki Cookie Consent"
 msgstr "Helsinki Cookie Consent"
 
@@ -67,7 +73,7 @@ msgstr ""
 "spåra användaren på denna webbplats eller på flera webbplatser för liknande "
 "marknadsföringssyften."
 
-#: features/notices/class-missing-cookie-provider-notice.php:38
+#: features/notices/class-missing-cookie-provider-notice.php:40
 msgid ""
 "Please activate one of the supported cookie providers to use this plugin."
 msgstr ""
@@ -97,11 +103,11 @@ msgstr "Statistik"
 msgid "Statistics (anonymous)"
 msgstr "Statistik (anonym)"
 
-#: features/notices/class-missing-cookie-provider-notice.php:49
+#: features/notices/class-missing-cookie-provider-notice.php:51
 msgid "Supported cookie providers"
 msgstr "Cookie-leverantörer som stöds"
 
-#: features/notices/class-missing-cookie-provider-notice.php:37
+#: features/notices/class-missing-cookie-provider-notice.php:39
 msgid ""
 "The cookie banner won't be able to group and list the cookies used on this "
 "site without a cookie provider."
@@ -109,7 +115,7 @@ msgstr ""
 "Cookiebannern kan inte gruppera och lista de cookies som används på den här "
 "webbplatsen utan en cookieleverantör."
 
-#: features/notices/class-missing-cookie-provider-notice.php:36
+#: features/notices/class-missing-cookie-provider-notice.php:38
 msgid "The cookie consent is missing a cookie provider."
 msgstr "Cookie consent saknar en cookieleverantör."
 
