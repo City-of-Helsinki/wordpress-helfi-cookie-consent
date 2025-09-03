@@ -15,6 +15,11 @@ function admin_init(): void {
 	if ( is_helsinkiteema_active() ) {
 		\add_action( 'admin_head-index.php', __NAMESPACE__ . '\\check_nav_menus_for_policy_pages' );
 		\add_action( 'wp_update_nav_menu', __NAMESPACE__ . '\\provide_clear_policy_pages_in_nav_menu_cache' );
+
+		\add_action(
+			'wordpress_helfi_cookie_consent_nav_menu_policy_pages_added',
+			__NAMESPACE__ . '\\provide_cache_policy_pages_in_nav_menu'
+		);
 	}
 }
 
@@ -26,20 +31,24 @@ function provide_clear_policy_pages_in_nav_menu_cache( int $menu_id ): void {
 	}
 }
 
+function provide_cache_policy_pages_in_nav_menu( string $location ): void {
+	$types = create_nav_menu_checker()
+		->policy_page_types_in_menu_location( $location );
+
+	if ( $types ) {
+		cache_policy_pages_in_nav_menu( $location, $types );
+	}
+}
+
 function is_helsinkiteema_active(): bool {
 	return (bool) \did_action( 'helsinki_theme_setup_ready' );
 }
 
 function check_nav_menus_for_policy_pages(): void {
 	if ( should_check_policy_pages_in_nav_menu( 'footer_menu' ) ) {
-		$checker = create_nav_menu_checker(
-			\apply_filters(
-				'wordpress_helfi_cookie_consent_nav_menu_metabox_pages',
-				array()
-			)
-		);
+		$types = create_nav_menu_checker()
+			->policy_page_types_in_menu_location( 'footer_menu' );
 
-		$types = $checker->policy_page_types_in_menu_location( 'footer_menu' );
 		if ( $types ) {
 			cache_policy_pages_in_nav_menu( 'footer_menu', $types );
 		} else {
@@ -51,8 +60,13 @@ function check_nav_menus_for_policy_pages(): void {
 	}
 }
 
-function create_nav_menu_checker( array $pages ): Nav_Menu_Checker {
-	return new Nav_Menu_Checker( $pages );
+function create_nav_menu_checker(): Nav_Menu_Checker {
+	return new Nav_Menu_Checker(
+		\apply_filters(
+			'wordpress_helfi_cookie_consent_nav_menu_metabox_pages',
+			array()
+		)
+	);
 }
 
 function should_check_policy_pages_in_nav_menu( string $location ): bool {
