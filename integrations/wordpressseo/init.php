@@ -51,7 +51,9 @@ function is_wordpress_seo_active(): bool {
 function title_separator(): string {
 	$separator = \YoastSEO()?->helpers?->options?->get_title_separator();
 
-	return $separator ? ' ' . $separator . ' ' : ' | ';
+	return ( $separator && is_string( $separator ) )
+		? ' ' . $separator . ' '
+		: ' | ';
 }
 
 function current_page(): ?Policy_Page {
