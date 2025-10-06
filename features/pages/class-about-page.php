@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Policy_Page;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Cache;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Rule;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Tag;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Pages\Content\About_Page_Fi;
@@ -23,13 +24,13 @@ final class About_Page implements Policy_Page
 		'sv' => About_Page_Sv::class,
 	);
 
-	private array $cache;
+	private Cache $cache;
 
 	public function __construct(
 		private string $query_var,
 		private string $current_language
 	) {
-		$this->cache = array();
+		$this->cache = new Cache();
 	}
 
 	public function query_var(): string
@@ -143,15 +144,14 @@ final class About_Page implements Policy_Page
 		);
 	}
 
-	private function get_content( string $lang )
+	private function get_content( string $lang ): mixed
 	{
-		if ( isset( $this->cache[$lang] ) ) {
-			return $this->cache[$lang];
+		if ( $this->cache->has( $lang ) ) {
+			return $this->cache->get( $lang );
 		}
 
 		$content = $this->content[$lang] ?? $this->content['en'];
-		$this->cache[$lang] = new $content();
 
-		return $this->cache[$lang];
+		return $this->cache->put( $lang, new $content() );
 	}
 }
