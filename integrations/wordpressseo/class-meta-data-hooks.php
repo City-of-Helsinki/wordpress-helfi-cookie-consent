@@ -15,13 +15,18 @@ final class Meta_Data_Hooks
 {
 	public function __construct(
 		private string $page_title,
+		private string $title_separator,
 		private string $policy_page_url,
 		private string $current_language
 	) {}
 
 	public function title( string $title ): string
 	{
-		return $this->page_title;
+		return \apply_filters(
+			'wordpress_helfi_cookie_consent_page_meta_title',
+			$this->page_title,
+			$this->title_separator
+		);
 	}
 
 	public function url( string $url ): string
