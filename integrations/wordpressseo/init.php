@@ -16,7 +16,7 @@ function init(): void {
 		return;
 	}
 
-	$policy_page = current_policy_page();
+	$policy_page = current_page();
 	if ( ! $policy_page ) {
 		return;
 	}
@@ -54,16 +54,16 @@ function title_separator(): string {
 	return $separator ? ' ' . $separator . ' ' : ' | ';
 }
 
-function current_policy_page(): ?Policy_Page {
+function current_page(): ?Policy_Page {
 	return \apply_filters(
-		'wordpress_helfi_cookie_consent_current_policy_page',
+		'wordpress_helfi_cookie_consent_current_page',
 		null
 	);
 }
 
 function create_meta_data_hooks( Policy_Page $page, string $language, string $title_separator ): Meta_Data_Hooks {
 	$slug = \apply_filters(
-		'wordpress_helfi_cookie_consent_policy_page_slug',
+		'wordpress_helfi_cookie_consent_page_slug',
 		$page->slug( $language ) ?: $page->slug( 'en' ),
 		$page,
 		$language
@@ -71,7 +71,7 @@ function create_meta_data_hooks( Policy_Page $page, string $language, string $ti
 
 	return new Meta_Data_Hooks(
 		\apply_filters(
-			'wordpress_helfi_cookie_consent_policy_page_meta_title',
+			'wordpress_helfi_cookie_consent_page_meta_title',
 			$page->title(),
 			$title_separator
 		),
