@@ -106,7 +106,7 @@ final class About_Page implements Policy_Page
 		return array(
 			'{{helfi_cookie_policy}}' => function( string $url ) {
 				return $url ? sprintf(
-					'<a href="%s">%s</a>',
+					'<a class="button" href="%s">%s</a>',
 					\esc_url( $url ),
 					\esc_html( __( 'Open the cookie settings', 'wordpress-helfi-cookie-consent' ) )
 				) : '';
