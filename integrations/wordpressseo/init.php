@@ -70,11 +70,8 @@ function create_meta_data_hooks( Policy_Page $page, string $language, string $ti
 	);
 
 	return new Meta_Data_Hooks(
-		\apply_filters(
-			'wordpress_helfi_cookie_consent_page_meta_title',
-			$page->title(),
-			$title_separator
-		),
+		$page->title(),
+		$title_separator,
 		\trailingslashit( \home_url( '/' . $slug ) ),
 		$language
 	);
