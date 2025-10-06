@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-27 10:58+0000\n"
-"PO-Revision-Date: 2025-09-03 07:28+0000\n"
+"PO-Revision-Date: 2025-10-06 12:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -20,7 +20,7 @@ msgid "Cache Storage"
 msgstr "Cache Storage"
 
 #. Author of the plugin
-#: features/pages/class-custom-page-hooks.php:151
+#: features/pages/class-custom-page-hooks.php:156
 msgid "City of Helsinki"
 msgstr "Helsingfors stad"
 
@@ -33,7 +33,7 @@ msgstr "Cookie"
 msgid "Cookie policy pages added to the \"%s\" navigation menu."
 msgstr "Sidor om cookiepolicy har lagts till i navigeringsmenyn \"%s\"."
 
-#: features/pages/class-cookie-policy-page.php:39
+#: features/pages/class-cookie-policy-page.php:40
 msgid "Cookie settings"
 msgstr ""
 " Cookie -inställningar\n"
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Functional"
 msgstr "Funktionell"
 
-#: features/pages/init.php:70
+#: features/pages/init.php:91
 msgid "Helsinki Cookie Consent"
 msgstr "Helsinki Cookie Consent"
 
@@ -72,6 +72,10 @@ msgstr ""
 "som används för att skapa användarprofiler för att visa reklam eller för att "
 "spåra användaren på denna webbplats eller på flera webbplatser för liknande "
 "marknadsföringssyften."
+
+#: features/pages/class-about-page.php:111
+msgid "Open the cookie settings"
+msgstr "Öppna inställningar för kakor"
 
 #: features/notices/class-missing-cookie-provider-notice.php:40
 msgid ""
