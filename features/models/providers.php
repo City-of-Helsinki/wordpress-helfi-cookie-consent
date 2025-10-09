@@ -51,7 +51,7 @@ function init(): void {
 			$current_language
 		),
 		'known_cookies' => known_cookies_data(
-			\apply_filters(
+			fn(): array => \apply_filters(
 				'wordpress_helfi_cookie_consent_known_cookies',
 				array()
 			)
@@ -86,6 +86,6 @@ function create_cookie_type_factory( string $current_language ): Type_Factory {
 	return new Cookie_Type_Factory( $current_language, new Cache() );
 }
 
-function known_cookies_data( array $cookies ): Known_Cookies {
+function known_cookies_data( callable $cookies ): Known_Cookies {
 	return new Known_Cookies( $cookies );
 }

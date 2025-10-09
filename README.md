@@ -1,6 +1,6 @@
 # WP Helsinki Cookie Consent
 
-WP Implementation of HDS CookieConsent
+WP Implementation of the standalone version of the [HDS CookieConsent](https://hds.hel.fi/components/cookie-consent/).
 
 ## Assets
 
@@ -54,6 +54,11 @@ Source: `/features/pages`
 - Determines `document_title` for a policy page.
 - Adds policy page links to menu location on `do_action( 'wordpress_helfi_cookie_consent_add_nav_menu_policy_pages', string $location )`.
 - Displays `Nav_Menu_Policy_Pages_Added_Notice` when pages are added to menu location.
+
+#### Dynamic pages
+
+- About the website
+- Cookie settings
 
 ### REST API
 
@@ -115,3 +120,96 @@ From: [yoast.com](https://yoast.com/) and [Plugin Directory](https://wordpress.o
 Source: `/integrations/wordpressseo`
 
 - Provides SEO meta data for the custom policy pages.
+
+## Custom cookies
+
+You can provide custom cookies to the consent banner and settings.
+
+**0)** Check the cookie consent plugin is available.
+
+```
+if ( did_action( 'wordpress_helfi_cookie_consent_loaded' ) ) {
+  // your code here...
+}
+```
+
+**1)** Create a cookie data class which implements `Known_Cookie_Data`.
+
+```
+use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Known_Cookie_Data;
+
+final class My_Custom_Cookie implements Known_Cookie_Data interface
+{
+  // Name of the service or functionality issuing the cookie
+  public function issuer(): string
+  {
+    return 'My custom cookie';
+  }
+
+  // Name of the cookie, if the name has variable suffix, append _* to the name
+  public function name(): string
+  {
+    return 'my_custom_cookie';
+    // return 'my_variable_cookie_*';
+  }
+
+  // Cookie name for humans, shown on the consent banner and settings
+  public function label(): string
+  {
+    return 'my_custom_cookie';
+  }
+
+  // Translated description of what the cookie is used for
+  public function descriptionTranslations(): array
+  {
+    return array(
+      'fi' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'sv' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'en' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    );
+  }
+
+  // Retention time translations
+  public function retentionTranslations(): array
+  {
+    return array(
+      'fi' => '100 päivää',
+      'sv' => '100 dagar',
+      'en' => '100 days'
+    );
+  }
+
+  // Supported types: cachestorage, indexeddb, localstorage, sessionstorage
+  // Invalid type will be marked as unknown
+  public function type(): string
+  {
+    return 'localstorage';
+  }
+
+  // Supported categories: preferences, functional, marketing, statistics, statistics_anonymous
+  // Invalid category will be marked as unknown
+  public function category(): string
+  {
+    return 'statistics';
+  }
+}
+```
+
+**2)** Pass the fully qualified name of custom cookie to the consent banner with a filter.
+
+```
+add_filter( 'wordpress_helfi_cookie_consent_known_cookies', 'provide_my_custom_cookie' );
+function provide_my_custom_cookie( array $cookies ): array {
+  $cookies[] = My_Custom_Cookie::class;
+
+  return $cookies;
+}
+```
+
+The filter can be used in both plugins and themes.
+
+**3)** Make sure your cookie issuer respects the consent banner.
+
+The cookie consent plugin currently only supports Complianz as the general cookie data provider and cookie blocker. Refer to the [developer documentation](https://complianz.io/developers-guide-for-third-party-integrations/) for integrating your cookie issuing functionality with Complianz and to have your cookie blocked automatically.
+
+See the HDS CookieConsent [component documentation](https://hds.hel.fi/components/cookie-consent/api/#events), if you need to listen to the consent events dispatched by the consent banner.

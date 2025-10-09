@@ -26,33 +26,39 @@ final class Translated_Policy_Pages
 	{
 		$default_lang = $this->default_language();
 		$default_hidden = $this->default_language_hidden();
-
 		$modified = array();
 		foreach ( $this->active_languages_slugs() as $lang ) {
-			if ( isset( $rules[$lang] ) ) {
-				$slug = ($lang === $default_lang && $default_hidden)
-					? $page->slug( $lang )
-					: $lang . '/' . $page->slug( $lang );
+			$slug = ($lang === $default_lang && $default_hidden)
+				? $page->slug( $lang )
+				: $lang . '/' . $page->slug( $lang );
 
-				$modified[$lang] = new Rewrite_Rule(
-					$page->query_var(),
-					$slug,
-					$page->type()
-				);
+			$modified[] = new Rewrite_Rule(
+				$page->query_var(),
+				$slug,
+				$page->type()
+			);
 
-				$this->page_slugs[$lang] = $slug;
-				$this->query_vars[$page->query_var()] = $page->type();
-			}
+			$this->cache_page_config( $page, $lang, $slug );
 		}
 
 		return $modified;
 	}
 
-	public function policy_page_language_link( ?string $url, ?string $slug, ?string $locale ): ?string
+	private function cache_page_config( Policy_Page $page, string $lang, string $slug ): void
 	{
-		foreach ( $this->query_vars as $key => $value ) {
-			if ( $this->should_provide_language_link( $key, $value, $slug ) ) {
-				return $this->page_url( $slug );
+		if ( ! isset( $this->page_slugs[$page->type()] ) ) {
+			$this->page_slugs[$page->type()] = array();
+		}
+
+		$this->page_slugs[$page->type()][$lang] = $slug;
+		$this->query_vars[$page->type()] = $page->query_var();
+	}
+
+	public function policy_page_language_link( ?string $url, ?string $lang, ?string $locale ): ?string
+	{
+		foreach ( $this->query_vars as $page_type => $query_var ) {
+			if ( $this->should_provide_language_link( $query_var, $page_type, $lang ) ) {
+				return $this->page_url( $page_type, $lang );
 			}
 		}
 
@@ -61,18 +67,18 @@ final class Translated_Policy_Pages
 
 	public function policy_page_slug( string $slug, Policy_Page $page, string $lang ): string
 	{
-		return $this->page_slugs[$lang] ?? $slug;
+		return $this->page_slugs[$page->type()][$lang] ?? $slug;
 	}
 
-	private function should_provide_language_link( string $key, string $value, string $lang ): bool
+	private function should_provide_language_link( string $query_var, string $page_type, string $lang ): bool
 	{
-		return \get_query_var( $key, false ) === $value
-			&& ! empty( $this->page_slugs[$lang] );
+		return \get_query_var( $query_var, false ) === $page_type
+			&& ! empty( $this->page_slugs[$page_type][$lang] );
 	}
 
-	private function page_url( string $lang ): string
+	private function page_url( string $page_type, string $lang ): string
 	{
-		return \home_url( sprintf( '/%s', $this->page_slugs[$lang] ) );
+		return \home_url( sprintf( '/%s', $this->page_slugs[$page_type][$lang] ) );
 	}
 
 	private function default_language_hidden(): bool

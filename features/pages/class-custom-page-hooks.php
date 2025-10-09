@@ -16,7 +16,7 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Tag;
 final class Custom_Page_Hooks
 {
 	public function __construct(
-		private Policy_Page_Factory $factory,
+		private Page_Factory $factory,
 		private string $current_language
 	) {}
 
@@ -25,7 +25,7 @@ final class Custom_Page_Hooks
 		return $this->factory->all();
 	}
 
-	public function create_nav_menu_policy_pages( string $location ): void
+	public function create_nav_menu_pages( string $location ): void
 	{
 		$menu = new Nav_Menu( $location );
 
@@ -50,7 +50,7 @@ final class Custom_Page_Hooks
 
 			if ( $pages_added ) {
 				\do_action(
-					'wordpress_helfi_cookie_consent_nav_menu_policy_pages_added',
+					'wordpress_helfi_cookie_consent_nav_menu_pages_added',
 					$location
 				);
 
@@ -104,46 +104,51 @@ final class Custom_Page_Hooks
 		}
 	}
 
-	public function policy_page_template( string $template ): string
+	public function policy_page_url( string $url ): string
 	{
-		$page = $this->get_current_policy_page();
+		return $this->page_url( $this->factory->cookie_policy() );
+	}
+
+	public function page_template( string $template ): string
+	{
+		$page = $this->get_current_page();
 
 		return $page ? $page->template_path() : $template;
 	}
 
-	public function policy_page_content(): void
+	public function page_content(): void
 	{
-		$page = $this->get_current_policy_page();
+		$page = $this->get_current_page();
 
 		if ( $page ) {
 			echo $page->content();
 		}
 	}
 
-	public function current_policy_page( ?Policy_Page $page ): ?Policy_Page
+	public function current_page( ?Policy_Page $page ): ?Policy_Page
 	{
-		return $this->get_current_policy_page() ?: $page;
+		return $this->get_current_page() ?: $page;
 	}
 
 	public function document_title( string $title ): string
 	{
 		return apply_filters(
-			'wordpress_helfi_cookie_consent_policy_page_meta_title',
+			'wordpress_helfi_cookie_consent_page_meta_title',
 			$title,
 			' | '
 		);
 	}
 
-	public function policy_page_title( string $title, string $separator ): string
+	public function page_title( string $title, string $separator ): string
 	{
-		$page = $this->get_current_policy_page();
+		$page = $this->get_current_page();
 
 		return $page
-			? implode( $separator, $this->policy_page_title_parts( $page ) )
+			? implode( $separator, $this->page_title_parts( $page ) )
 			: $title;
 	}
 
-	private function policy_page_title_parts( Policy_Page $page ): array
+	private function page_title_parts( Policy_Page $page ): array
 	{
 		return array(
 			$page->title(),
@@ -152,7 +157,7 @@ final class Custom_Page_Hooks
 		);
 	}
 
-	private function get_current_policy_page(): ?Policy_Page
+	private function get_current_page(): ?Policy_Page
 	{
 		return $this->factory->from_item_type(
 			\get_query_var( $this->factory->query_var(), '' )
@@ -172,7 +177,7 @@ final class Custom_Page_Hooks
 	private function page_url( Policy_Page $page ): string
 	{
 		return \home_url( \apply_filters(
-			'wordpress_helfi_cookie_consent_policy_page_slug',
+			'wordpress_helfi_cookie_consent_page_slug',
 			'/' . ($page->slug( $this->current_language ) ?: $page->slug( 'en' )),
 			$page,
 			$this->current_language

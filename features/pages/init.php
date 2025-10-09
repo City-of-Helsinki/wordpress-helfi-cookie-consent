@@ -26,14 +26,19 @@ function clear_rewrite_rules(): void {
 function init(): void {
 	\add_action( 'admin_head-nav-menus.php', __NAMESPACE__ . '\\document_pages_metabox' );
 
+	$current_language = \apply_filters(
+		'wordpress_helfi_cookie_consent_current_language',
+		'en'
+	);
+
 	$hooks = create_custom_page_hooks(
-		create_policy_page_factory(),
-		\apply_filters( 'wordpress_helfi_cookie_consent_current_language', 'en' )
+		create_page_factory( $current_language ),
+		$current_language
 	);
 
 	\add_filter(
-		'wordpress_helfi_cookie_consent_current_policy_page',
-		array( $hooks, 'current_policy_page' ),
+		'wordpress_helfi_cookie_consent_current_page',
+		array( $hooks, 'current_page' ),
 		1
 	);
 
@@ -45,33 +50,39 @@ function init(): void {
 	);
 
 	\add_action( 'init', array( $hooks, 'register_rewrites' ) );
-	\add_action( 'template_include', array( $hooks, 'policy_page_template' ) );
+
+	\add_action(
+		'wordpress_helfi_cookie_consent_policy_page_url',
+		array( $hooks, 'policy_page_url' )
+	);
+
+	\add_action( 'template_include', array( $hooks, 'page_template' ) );
 	\add_action(
 		'wordpress_helfi_cookie_consent_page',
-		array( $hooks, 'policy_page_content' )
+		array( $hooks, 'page_content' )
 	);
 
 	\add_filter( 'document_title', array( $hooks, 'document_title' ), 9999, 1 );
 	\add_filter( 'wp_title', array( $hooks, 'document_title' ), 9999, 1 );
 
 	\add_filter(
-		'wordpress_helfi_cookie_consent_policy_page_meta_title',
-		array( $hooks, 'policy_page_title' ),
+		'wordpress_helfi_cookie_consent_page_meta_title',
+		array( $hooks, 'page_title' ),
 		9999, 2
 	);
 
 	\add_action(
 		'wordpress_helfi_cookie_consent_add_nav_menu_policy_pages',
-		array( $hooks, 'create_nav_menu_policy_pages' ),
+		array( $hooks, 'create_nav_menu_pages' ),
 	);
 }
 
-function create_custom_page_hooks( Policy_Page_Factory $factory, string $current_language ): Custom_Page_Hooks {
+function create_custom_page_hooks( Page_Factory $factory, string $current_language ): Custom_Page_Hooks {
 	return new Custom_Page_Hooks( $factory, $current_language );
 }
 
-function create_policy_page_factory(): Policy_Page_Factory {
-	return new Policy_Page_Factory( new Cache() );
+function create_page_factory( string $current_language ): Page_Factory {
+	return new Page_Factory( new Cache(), $current_language );
 }
 
 function document_pages_metabox(): void {

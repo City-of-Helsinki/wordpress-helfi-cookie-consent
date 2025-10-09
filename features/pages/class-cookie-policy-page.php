@@ -21,7 +21,8 @@ final class Cookie_Policy_Page implements Policy_Page
 	);
 
 	public function __construct(
-		private string $query_var
+		private string $query_var,
+		private string $current_language
 	) {}
 
 	public function query_var(): string
@@ -43,7 +44,10 @@ final class Cookie_Policy_Page implements Policy_Page
 	{
 		$id = \apply_filters( 'wordpress_helfi_cookie_consent_settings_element_id', '' );
 
-		return $id ? sprintf( '<div id="%s"></div>', \esc_attr( $id ) ) : '';
+		return $id ? sprintf(
+			'<div id="%s" class="helfi-consent-page-content"></div>',
+			\esc_attr( $id )
+		) : '';
 	}
 
 	public function template_path(): string
@@ -56,7 +60,7 @@ final class Cookie_Policy_Page implements Policy_Page
 
 	public function slug( string $lang ): string
 	{
-		return $this->slugs[$lang] ?? '';
+		return $this->slugs[$lang] ?? $this->slugs['en'];
 	}
 
 	public function rewrite_tag(): Rewrite_Tag
@@ -67,12 +71,12 @@ final class Cookie_Policy_Page implements Policy_Page
 	public function rewrite_rules(): array
 	{
 		return array_map(
-			fn( string $slug ) => new Rewrite_Rule(
+			fn( string $lang ) => new Rewrite_Rule(
 				$this->query_var(),
-				$slug,
+				$this->slug( $lang ),
 				$this->type()
 			),
-			$this->slugs
+			array_keys( $this->slugs )
 		);
 	}
 }

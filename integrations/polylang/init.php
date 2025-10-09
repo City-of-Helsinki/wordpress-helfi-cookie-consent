@@ -26,7 +26,7 @@ function init(): void {
 		);
 
 		\add_filter(
-			'wordpress_helfi_cookie_consent_policy_page_slug',
+			'wordpress_helfi_cookie_consent_page_slug',
 			array( $translations, 'policy_page_slug' ),
 			10, 3
 		);

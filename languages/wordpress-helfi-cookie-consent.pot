@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-03 07:27+0000\n"
+"POT-Creation-Date: 2025-10-06 12:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -21,7 +21,7 @@ msgid "Cache Storage"
 msgstr ""
 
 #. Author of the plugin
-#: features/pages/class-custom-page-hooks.php:151
+#: features/pages/class-custom-page-hooks.php:156
 msgid "City of Helsinki"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Cookie policy pages added to the \"%s\" navigation menu."
 msgstr ""
 
-#: features/pages/class-cookie-policy-page.php:39
+#: features/pages/class-cookie-policy-page.php:40
 msgid "Cookie settings"
 msgstr ""
 
@@ -42,7 +42,7 @@ msgstr ""
 msgid "Functional"
 msgstr ""
 
-#: features/pages/init.php:70
+#: features/pages/init.php:91
 msgid "Helsinki Cookie Consent"
 msgstr ""
 
@@ -67,6 +67,10 @@ msgid ""
 "Marketing cookies are cookies or any other form of local storage, used to "
 "create user profiles to display advertising or to track the user on this "
 "website or across several websites for similar marketing purposes."
+msgstr ""
+
+#: features/pages/class-about-page.php:111
+msgid "Open the cookie settings"
 msgstr ""
 
 #: features/notices/class-missing-cookie-provider-notice.php:40

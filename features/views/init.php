@@ -53,24 +53,19 @@ function register_assets(): void {
 }
 
 function register_settings_element_inline_styles(): void {
-	$id = \apply_filters( 'wordpress_helfi_cookie_consent_settings_element_id', '' );
+	\wp_register_style( 'hel-cookie-consent', false );
+	\wp_enqueue_style( 'hel-cookie-consent' );
 
-	if ( $id ) {
-		wp_register_style( $id, false );
-		wp_enqueue_style( $id );
-
-		wp_add_inline_style(
-			$id,
-			sprintf(
-				'#%s {%s}',
-				\esc_attr( $id ),
-				implode( ' ', array(
-					'min-height: 100vh;',
-					'margin: 0 auto max(3vw,50px);',
-					'max-width: 1200px;',
-					'width: 90%',
-				) )
-			)
-		);
-	}
+	\wp_add_inline_style(
+		'hel-cookie-consent',
+		sprintf(
+			'.helfi-consent-page-content {%s}',
+			implode( ' ', array(
+				'min-height: 100vh;',
+				'margin: 0 auto max(3vw,50px);',
+				'max-width: 1200px;',
+				'width: 90%',
+			) )
+		)
+	);
 }

@@ -14,14 +14,19 @@ use Yoast\WP\SEO\Context\Meta_Tags_Context;
 final class Meta_Data_Hooks
 {
 	public function __construct(
-		private string $policy_page_title,
+		private string $page_title,
+		private string $title_separator,
 		private string $policy_page_url,
 		private string $current_language
 	) {}
 
 	public function title( string $title ): string
 	{
-		return $this->policy_page_title;
+		return \apply_filters(
+			'wordpress_helfi_cookie_consent_page_meta_title',
+			$this->page_title,
+			$this->title_separator
+		);
 	}
 
 	public function url( string $url ): string
@@ -40,7 +45,7 @@ final class Meta_Data_Hooks
 			array_shift( $crumbs ),
 			array(
 				'id' => 0,
-				'text' => $this->policy_page_title,
+				'text' => $this->page_title,
 				'url' => $this->policy_page_url,
 			)
 		);
@@ -73,8 +78,8 @@ final class Meta_Data_Hooks
 			'@type' => 'WebPage',
 			'@id' => $this->policy_page_url,
 			'url' => $this->policy_page_url,
-			'name' => $this->policy_page_title,
-			'description' => $this->policy_page_title,
+			'name' => $this->page_title,
+			'description' => $this->page_title,
 			'inLanguage' => $this->current_language,
 		);
 

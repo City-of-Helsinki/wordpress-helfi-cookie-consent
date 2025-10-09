@@ -17,7 +17,7 @@ function admin_init(): void {
 		\add_action( 'wp_update_nav_menu', __NAMESPACE__ . '\\provide_clear_policy_pages_in_nav_menu_cache' );
 
 		\add_action(
-			'wordpress_helfi_cookie_consent_nav_menu_policy_pages_added',
+			'wordpress_helfi_cookie_consent_nav_menu_pages_added',
 			__NAMESPACE__ . '\\provide_cache_policy_pages_in_nav_menu'
 		);
 	}
