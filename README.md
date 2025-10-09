@@ -55,6 +55,11 @@ Source: `/features/pages`
 - Adds policy page links to menu location on `do_action( 'wordpress_helfi_cookie_consent_add_nav_menu_policy_pages', string $location )`.
 - Displays `Nav_Menu_Policy_Pages_Added_Notice` when pages are added to menu location.
 
+#### Dynamic pages
+
+- About the website
+- Cookie settings
+
 ### REST API
 
 Source: `/features/rest`
