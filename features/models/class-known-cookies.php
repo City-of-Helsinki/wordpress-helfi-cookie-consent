@@ -10,27 +10,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Known_Cookie_Data;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Cookies\HDS_Cookie_Consent;
+use Closure;
 
 final class Known_Cookies
 {
-	private array $cookies;
+	private Closure $callback;
 
 	public function __construct(
-		array $cookies
+		callable $callback
 	) {
-		$this->cookies = array_values(
-			array_unique(
-				array_merge(
-					$this->default_cookies(),
-					$cookies
-				)
-			)
-		);
+		$this->callback = Closure::fromCallable( $callback );
 	}
 
 	public function list(): array
 	{
-		return array_map( array( $this, 'to_cookie_data' ), $this->cookies );
+		return array_map(
+			array( $this, 'to_cookie_data' ),
+			$this->get_cookies()
+		);
+	}
+
+	private function get_cookies(): array
+	{
+		return array_values(
+		    array_unique(
+		        array_merge(
+		            $this->default_cookies(),
+		            call_user_func( $this->callback )
+		        )
+		    )
+		);
 	}
 
 	private function to_cookie_data( string $cookie ): Known_Cookie_Data
