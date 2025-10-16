@@ -23,6 +23,10 @@ function provide_settings_element_id(): string {
 }
 
 function register_assets(): void {
+	if ( ! \apply_filters( 'wordpress_helfi_cookie_consent_has_cookie_provider', false ) ) {
+		return;
+	}
+
 	$debug = \apply_filters( 'wordpress_helfi_cookie_consent_is_debug', '' );
 	$url = \apply_filters( 'wordpress_helfi_cookie_consent_assets_url', '' );
 	$version = \apply_filters( 'wordpress_helfi_cookie_consent_asset_version', '' );
