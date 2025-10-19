@@ -20,7 +20,7 @@ final class Meta_Data_Hooks
 		private string $current_language
 	) {}
 
-	public function title( string $title ): string
+	public function title( $title ): string
 	{
 		return \apply_filters(
 			'wordpress_helfi_cookie_consent_page_meta_title',
@@ -29,12 +29,12 @@ final class Meta_Data_Hooks
 		);
 	}
 
-	public function url( string $url ): string
+	public function url( $url ): string
 	{
 		return $this->policy_page_url;
 	}
 
-	public function image_url( string $url ): string
+	public function image_url( $url ): string
 	{
 		return '';
 	}
