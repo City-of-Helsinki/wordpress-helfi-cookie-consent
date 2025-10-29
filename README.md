@@ -85,7 +85,7 @@ Source: `/features/settings`
 - Registers custom **Reading** settings for `about_website` and `cookie_policy` pages.
 - If custom pages are enabled then the custom rewrite rules are disabled.
 - When custom pages are enabled it is expected that the user selects which pages display the policy pages.
-- Policy content is automatically **appended** using `the_content` filter to the main content of the selected page. The content **must** be within The Loop.
+- Policy content is automatically **appended** using `the_content` filter to the main content of the selected page. The content **must** be within [The Loop](https://developer.wordpress.org/themes/classic-themes/basics/the-loop/).
 
 ## Integrations
 
