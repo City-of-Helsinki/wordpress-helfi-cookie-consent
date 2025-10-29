@@ -10,4 +10,5 @@ return array(
 	'pages' => 'init',
 	'views' => 'init',
 	'rest' => 'init',
+	'settings' => 'init',
 );
