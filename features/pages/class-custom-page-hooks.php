@@ -131,7 +131,7 @@ final class Custom_Page_Hooks
 
 	public function custom_page_content( string $content ): string
 	{
-		if ( is_singular() && in_the_loop() && is_main_query() ) {
+		if ( is_page() && in_the_loop() && is_main_query() ) {
 			$page = $this->factory->from_id( \get_the_ID() );
 
 			if ( $page ) {
