@@ -63,7 +63,7 @@ function register_settings_element_inline_styles(): void {
 	\wp_add_inline_style(
 		'hel-cookie-consent',
 		sprintf(
-			'.helfi-consent-page-content {%s}',
+			'body:not(.page) .helfi-consent-page-content {%s}',
 			implode( ' ', array(
 				'min-height: 100vh;',
 				'margin: 0 auto max(3vw,50px);',

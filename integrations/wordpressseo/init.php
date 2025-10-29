@@ -64,17 +64,10 @@ function current_page(): ?Policy_Page {
 }
 
 function create_meta_data_hooks( Policy_Page $page, string $language, string $title_separator ): Meta_Data_Hooks {
-	$slug = \apply_filters(
-		'wordpress_helfi_cookie_consent_page_slug',
-		$page->slug( $language ) ?: $page->slug( 'en' ),
-		$page,
-		$language
-	);
-
 	return new Meta_Data_Hooks(
 		$page->title(),
 		$title_separator,
-		\trailingslashit( \home_url( '/' . $slug ) ),
+		\trailingslashit( $page->url( $language ) ),
 		$language
 	);
 }

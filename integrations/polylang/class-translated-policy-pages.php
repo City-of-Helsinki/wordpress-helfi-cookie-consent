@@ -30,7 +30,7 @@ final class Translated_Policy_Pages
 		foreach ( $this->active_languages_slugs() as $lang ) {
 			$slug = ($lang === $default_lang && $default_hidden)
 				? $page->slug( $lang )
-				: $lang . '/' . $page->slug( $lang );
+				: \trailingslashit( $lang ) . $page->slug( $lang );
 
 			$modified[] = new Rewrite_Rule(
 				$page->query_var(),
