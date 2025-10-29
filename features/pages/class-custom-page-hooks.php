@@ -68,7 +68,7 @@ final class Custom_Page_Hooks
 
 		if ( $page ) {
 			$menu_item->title = $page->title();
-			$menu_item->url = $this->page_url( $page );
+			$menu_item->url = $page->url( $this->current_language );
 		}
 
 		return $menu_item;
@@ -81,7 +81,7 @@ final class Custom_Page_Hooks
 
 			if ( $page ) {
 				$item->title = $page->title();
-				$item->url = $this->page_url( $page );
+				$item->url = $page->url( $this->current_language );
 			}
 		}
 
@@ -91,22 +91,26 @@ final class Custom_Page_Hooks
 	public function register_rewrites(): void
 	{
 		foreach( $this->factory->all() as $page ) {
-			$this->register_rewrite_tag( $page->rewrite_tag() );
+			$tag = $page->rewrite_tag();
 
-			array_map(
-				array( $this, 'register_rewrite_rule' ),
-				\apply_filters(
-					'wordpress_helfi_cookie_consent_policy_page_rewrite_rules',
-					$page->rewrite_rules(),
-					$page
-				)
-			);
+			if ( $tag ) {
+				$this->register_rewrite_tag( $page->rewrite_tag() );
+
+				array_map(
+					array( $this, 'register_rewrite_rule' ),
+					\apply_filters(
+						'wordpress_helfi_cookie_consent_policy_page_rewrite_rules',
+						$page->rewrite_rules(),
+						$page
+					)
+				);
+			}
 		}
 	}
 
 	public function policy_page_url( string $url ): string
 	{
-		return $this->page_url( $this->factory->cookie_policy() );
+		return $this->factory->cookie_policy()->url( $this->current_language );
 	}
 
 	public function page_template( string $template ): string
@@ -123,6 +127,19 @@ final class Custom_Page_Hooks
 		if ( $page ) {
 			echo $page->content();
 		}
+	}
+
+	public function custom_page_content( string $content ): string
+	{
+		if ( is_page() && in_the_loop() && is_main_query() ) {
+			$page = $this->factory->from_id( \get_the_ID() );
+
+			if ( $page ) {
+				$content .= $page->content();
+			}
+		}
+
+		return $content;
 	}
 
 	public function current_page( ?Policy_Page $page ): ?Policy_Page
@@ -172,15 +189,5 @@ final class Custom_Page_Hooks
 	private function register_rewrite_rule( Rewrite_Rule $rule ): void
 	{
 		\add_rewrite_rule( $rule->regex(), $rule->query(), $rule->priority() );
-	}
-
-	private function page_url( Policy_Page $page ): string
-	{
-		return \home_url( \apply_filters(
-			'wordpress_helfi_cookie_consent_page_slug',
-			'/' . ($page->slug( $this->current_language ) ?: $page->slug( 'en' )),
-			$page,
-			$this->current_language
-		) );
 	}
 }

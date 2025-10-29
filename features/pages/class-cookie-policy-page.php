@@ -11,9 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Policy_Page;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Rule;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Tag;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Pages\Traits\Has_Custom_Page_Id;
 
 final class Cookie_Policy_Page implements Policy_Page
 {
+	use Has_Custom_Page_Id;
+
 	private array $slugs = array(
 		'fi' => 'evasteasetukset',
 		'en' => 'cookie-settings',
@@ -60,23 +63,40 @@ final class Cookie_Policy_Page implements Policy_Page
 
 	public function slug( string $lang ): string
 	{
-		return $this->slugs[$lang] ?? $this->slugs['en'];
+		return \apply_filters(
+			'wordpress_helfi_cookie_consent_page_slug',
+			$this->slugs[$lang] ?? $this->slugs['en'],
+			$this,
+			$lang
+		);
 	}
 
-	public function rewrite_tag(): Rewrite_Tag
+	public function url( string $lang ): string
 	{
-		return new Rewrite_Tag( $this->query_var(), '([^&]+)' );
+		$page_id = $this->custom_page_id_from_name( 'cookie_policy' );
+		$permalink = $page_id ? \get_permalink( $page_id ) : '';
+
+		return $permalink ?: \home_url( $this->slug( $lang ) );
+	}
+
+	public function rewrite_tag(): ?Rewrite_Tag
+	{
+		return $this->custom_page_id_from_name( 'cookie_policy' )
+			? null
+			: new Rewrite_Tag( $this->query_var(), '([^&]+)' );
 	}
 
 	public function rewrite_rules(): array
 	{
-		return array_map(
-			fn( string $lang ) => new Rewrite_Rule(
-				$this->query_var(),
-				$this->slug( $lang ),
-				$this->type()
-			),
-			array_keys( $this->slugs )
-		);
+		return $this->custom_page_id_from_name( 'cookie_policy' )
+			? array()
+			: array_map(
+			   fn( string $lang ) => new Rewrite_Rule(
+				   $this->query_var(),
+				   $this->slug( $lang ),
+				   $this->type()
+			   ),
+			   array_keys( $this->slugs )
+		   );
 	}
 }

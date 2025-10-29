@@ -62,6 +62,8 @@ function init(): void {
 		array( $hooks, 'page_content' )
 	);
 
+	\add_filter( 'the_content', array( $hooks, 'custom_page_content' ) );
+
 	\add_filter( 'document_title', array( $hooks, 'document_title' ), 9999, 1 );
 	\add_filter( 'wp_title', array( $hooks, 'document_title' ), 9999, 1 );
 

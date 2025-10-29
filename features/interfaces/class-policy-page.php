@@ -18,6 +18,7 @@ interface Policy_Page
 	public function content(): string;
 	public function template_path(): string;
 	public function slug( string $lang ): string;
-	public function rewrite_tag(): Rewrite_Tag;
+	public function url( string $lang ): string;
+	public function rewrite_tag(): ?Rewrite_Tag;
 	public function rewrite_rules(): array;
 }
