@@ -10,9 +10,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Nav_Menu_Checker;
 
+\add_action( 'helsinki_theme_setup_ready', __NAMESPACE__ . '\\init', 10 );
+function init(): void {
+	if ( \did_action( 'helsinki_theme_setup_ready' ) ) {
+		\add_filter( 'wordpress_helfi_cookie_consent_helsinkiteema_active', '__return_true' );
+	}
+}
+
 \add_action( 'admin_init', __NAMESPACE__ . '\\admin_init' );
 function admin_init(): void {
-	if ( is_helsinkiteema_active() ) {
+	if ( \apply_filters( 'wordpress_helfi_cookie_consent_helsinkiteema_active', false ) ) {
 		\add_action( 'admin_head-index.php', __NAMESPACE__ . '\\check_nav_menus_for_policy_pages' );
 		\add_action( 'wp_update_nav_menu', __NAMESPACE__ . '\\provide_clear_policy_pages_in_nav_menu_cache' );
 
@@ -38,10 +45,6 @@ function provide_cache_policy_pages_in_nav_menu( string $location ): void {
 	if ( $types ) {
 		cache_policy_pages_in_nav_menu( $location, $types );
 	}
-}
-
-function is_helsinkiteema_active(): bool {
-	return (bool) \did_action( 'helsinki_theme_setup_ready' );
 }
 
 function check_nav_menus_for_policy_pages(): void {
