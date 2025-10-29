@@ -77,6 +77,16 @@ Source: `/features/views`
 - Registers inline styles for the cookie consent settings wrap element using dynamic handle name based on the `wordpress_helfi_cookie_consent_settings_element_id` filter.
 - Provides default value for `wordpress_helfi_cookie_consent_settings_element_id`.
 
+### Settings
+
+Source: `/features/settings`
+
+- Register custom **Reading** setting for using custom policy pages.
+- Registers custom **Reading** settings for `about_website` and `cookie_policy` pages.
+- If custom pages are enabled then the custom rewrite rules are disabled.
+- When custom pages are enabled it is expected that the user selects which pages display the policy pages.
+- Policy content is automatically **appended** using `the_content` filter to the main content of the selected page. The content **must** be within The Loop.
+
 ## Integrations
 
 ### Complianz – GDPR/CCPA Cookie Consent
@@ -103,6 +113,7 @@ Source: `/integrations/helsinkiteema`
 - If policy pages' links are missing from the menu, adds the missing ones.
 - The check result is cached in a transient for one day.
 - The cache transient is cleared when a menu attached to `footer_menu` location is updated.
+- The custom **Reading** are not available for Helsinkiteema. The site is expected to use the auto-generated policy pages.
 
 ### Polylang
 
