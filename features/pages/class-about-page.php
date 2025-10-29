@@ -15,9 +15,12 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Rewrite_Tag;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Pages\Content\About_Page_Fi;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Pages\Content\About_Page_En;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Pages\Content\About_Page_Sv;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Pages\Traits\Has_Custom_Page_Id;
 
 final class About_Page implements Policy_Page
 {
+	use Has_Custom_Page_Id;
+
 	private array $content = array(
 		'fi' => About_Page_Fi::class,
 		'en' => About_Page_En::class,
@@ -51,7 +54,7 @@ final class About_Page implements Policy_Page
 	public function content(): string
 	{
 		$content = sprintf(
-			'<article id="about-website" class="helfi-consent-page-content">
+			'<div id="about-website" class="helfi-consent-page-content">
 				<div class="container">
 					<h1 class="title">
 						%s
@@ -64,7 +67,7 @@ final class About_Page implements Policy_Page
 						%s
 					</div>
 				</div>
-			</article>',
+			</div>',
 			$this->get_content( $this->current_language )->title(),
 			$this->get_content( $this->current_language )->excerpt(),
 			$this->get_content( $this->current_language )->body()
@@ -124,24 +127,42 @@ final class About_Page implements Policy_Page
 
 	public function slug( string $lang ): string
 	{
-		return $this->get_content( $lang )->slug();
+		return \apply_filters(
+			'wordpress_helfi_cookie_consent_page_slug',
+			$this->get_content( $lang )->slug()
+			   ?: $this->get_content( 'en' )->slug(),
+			$this,
+			$lang
+		);
 	}
 
-	public function rewrite_tag(): Rewrite_Tag
+	public function url( string $lang ): string
 	{
-		return new Rewrite_Tag( $this->query_var(), '([^&]+)' );
+		$page_id = $this->custom_page_id_from_name( 'about_website' );
+		$permalink = $page_id ? \get_permalink( $page_id ) : '';
+
+		return $permalink ?: \home_url( $this->slug( $lang ) );
+	}
+
+	public function rewrite_tag(): ?Rewrite_Tag
+	{
+		return $this->custom_page_id_from_name( 'about_website' )
+			? null
+			: new Rewrite_Tag( $this->query_var(), '([^&]+)' );
 	}
 
 	public function rewrite_rules(): array
 	{
-		return array_map(
-			fn( string $lang ) => new Rewrite_Rule(
-				$this->query_var(),
-				$this->slug( $lang ),
-				$this->type()
-			),
-			array_keys( $this->content )
-		);
+		return $this->custom_page_id_from_name( 'about_website' )
+			? array()
+			: array_map(
+			   fn( string $lang ) => new Rewrite_Rule(
+				   $this->query_var(),
+				   $this->slug( $lang ),
+				   $this->type()
+			   ),
+			   array_keys( $this->content )
+		   );
 	}
 
 	private function get_content( string $lang ): mixed
