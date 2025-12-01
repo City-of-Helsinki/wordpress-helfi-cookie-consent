@@ -88,14 +88,17 @@ final class Translated_Policy_Pages
 
 	private function default_language(): string
 	{
-		return \pll_default_language( 'slug' );
+		$language = \pll_default_language( 'slug' );
+
+		return is_string( $language ) ? $language : '';
 	}
 
 	private function active_languages_slugs(): array
 	{
-		return array_column(
-			\pll_the_languages( array( 'raw' => 1 ) ),
-			'slug'
-		);
+		$languages = \pll_the_languages( array( 'raw' => 1 ) );
+
+		return is_array( $languages )
+			? array_column( $languages, 'slug' )
+			: array();
 	}
 }
