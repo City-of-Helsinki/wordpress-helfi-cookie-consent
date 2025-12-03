@@ -50,7 +50,9 @@ final class Cookie_Repository
 			$this->known_cookies->list(),
 			function( array $cookies, Known_Cookie_Data $data ) {
 				$cookie = $this->factory->create_known_cookie( $data );
-				$cookies[$cookie->name()] = $cookie;
+
+				$key = $cookie->type()->name() . $cookie->name();
+				$cookies[$key] = $cookie;
 
 				return $cookies;
 			},
@@ -64,7 +66,9 @@ final class Cookie_Repository
 			$this->database->cookies(),
 			function( array $cookies, mixed $data ) {
 				$cookie = $this->create_cookie_adapter( $data );
-				$cookies[$cookie->name()] = $cookie;
+
+				$key = $cookie->type()->name() . $cookie->name();
+				$cookies[$key] = $cookie;
 
 				return $cookies;
 			},
