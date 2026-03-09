@@ -59,6 +59,30 @@ function init(): void {
 	}
 }
 
+\add_filter( 'wordpress_helfi_cookie_consent_known_cookies', __NAMESPACE__ . '\\provide_cookies' );
+function provide_cookies( array $cookies ): array {
+	if ( is_complianz_active() ) {
+		$cookies = array_merge( $cookies, array(
+			Cookies\Cmplz_Functional::class,
+			Cookies\Cmplz_Marketing::class,
+			Cookies\Cmplz_Preferences::class,
+			Cookies\Cmplz_Statistics::class,
+			Cookies\Cmplz_Unknown::class,
+			Cookies\Cmplz_Policy_Id::class,
+			Cookies\Cmplz_Banner_Status::class,
+		) );
+	}
+
+	return $cookies;
+}
+
+\add_filter( 'wordpress_helfi_cookie_consent_cmplz_expiry_days', __NAMESPACE__ . '\\provide_cmplz_expiry_days' );
+function provide_cmplz_expiry_days( int $days ): int {
+	$expiry = \cmplz_get_option( 'cookie_expiry' );
+
+	return is_numeric( $expiry ) ? (int) $expiry : $days;
+}
+
 function is_complianz_active(): bool {
 	return class_exists( 'COMPLIANZ' );
 }
