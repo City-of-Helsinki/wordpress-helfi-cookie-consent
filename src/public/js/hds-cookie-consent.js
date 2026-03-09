@@ -22,9 +22,9 @@
       const deny = (group) => cmplz_set_consent(group, 'deny');
       const denyAll = () => cmplz_deny_all();
 
-      const handleComplianzCategoryEnabled = () => {
+      const handleComplianzCategoryEnabled = (event) => {
         if (hds.cookieConsent) {
-          hds.cookieConsent.setGroupsStatusToAccepted(event.detail.category);
+          hds.cookieConsent.setGroupsStatusToAccepted([event.detail.category]);
         }
       }
 

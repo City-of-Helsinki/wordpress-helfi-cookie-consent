@@ -33,6 +33,15 @@ function init(): void {
 	}
 }
 
+\add_filter( 'wordpress_helfi_cookie_consent_known_cookies', __NAMESPACE__ . '\\provide_cookies' );
+function provide_cookies( array $cookies ): array {
+	if ( is_polylang_active() ) {
+		$cookies[] = Cookies\Pll_Language::class;
+	}
+
+	return $cookies;
+}
+
 function create_translated_policy_pages(): Translated_Policy_Pages {
 	return new Translated_Policy_Pages();
 }
