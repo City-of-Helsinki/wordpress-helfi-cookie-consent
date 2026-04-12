@@ -4,7 +4,7 @@
 	* Description: WordPress Implementation of HDS CookieConsent
 	* Requires at least: 6.7
 	* Requires PHP: 8.2
-	* Version: 3.0.2
+	* Version: 3.1.0
 	* Author: City of Helsinki
 	* Author URI: https://www.hel.fi
 	* License: GPL v2 or later
