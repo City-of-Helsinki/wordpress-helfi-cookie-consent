@@ -25,31 +25,33 @@ function init(): void {
 		\remove_action( 'wp_footer', array( \cmplz_banner_loader::this(), 'cookiebanner_html' ) );
 
 		\add_filter(
+			'cmplz_cookiebanner_settings',
+			__NAMESPACE__ . '\\provide_cmplz_cookiebanner_settings',
+			10, 2
+		);
+
+		\add_filter(
 			'wordpress_helfi_cookie_consent_cookie_database',
 			__NAMESPACE__ . '\\provide_cookie_database',
-			10,
-			1
+			10, 1
 		);
 
 		\add_filter(
 			'wordpress_helfi_cookie_consent_cookie_adapter_factory',
 			__NAMESPACE__ . '\\provide_cookie_adapter_factory',
-			10,
-			4
+			10, 4
 		);
 
 		\add_filter(
 			'wordpress_helfi_cookie_consent_cookies_handler',
 			fn() => 'complianz',
-			10,
-			1
+			10, 1
 		);
 
 		\add_filter(
 			'wordpress_helfi_cookie_consent_rest_settings',
 			__NAMESPACE__ . '\\filter_rest_settings',
-			10,
-			1
+			10, 1
 		);
 
 		\add_filter(
@@ -57,6 +59,30 @@ function init(): void {
 			'__return_true'
 		);
 	}
+}
+
+\add_filter( 'wordpress_helfi_cookie_consent_known_cookies', __NAMESPACE__ . '\\provide_cookies' );
+function provide_cookies( array $cookies ): array {
+	if ( is_complianz_active() ) {
+		$cookies = array_merge( $cookies, array(
+			Cookies\Cmplz_Functional::class,
+			Cookies\Cmplz_Marketing::class,
+			Cookies\Cmplz_Preferences::class,
+			Cookies\Cmplz_Statistics::class,
+			Cookies\Cmplz_Unknown::class,
+			Cookies\Cmplz_Policy_Id::class,
+			Cookies\Cmplz_Banner_Status::class,
+		) );
+	}
+
+	return $cookies;
+}
+
+\add_filter( 'wordpress_helfi_cookie_consent_cmplz_expiry_days', __NAMESPACE__ . '\\provide_cmplz_expiry_days' );
+function provide_cmplz_expiry_days( int $days ): int {
+	$expiry = \cmplz_get_option( 'cookie_expiry' );
+
+	return is_numeric( $expiry ) ? (int) $expiry : $days;
 }
 
 function is_complianz_active(): bool {
@@ -107,6 +133,33 @@ function filter_rest_settings( array $settings ): array {
 			array( 'functional', 'preferences', 'statistics', 'marketing' )
 		)
 	);
+
+	return $settings;
+}
+
+function provide_cmplz_cookiebanner_settings( array $settings, $banner ): array {
+	$repository = \apply_filters( 'wordpress_helfi_cookie_consent_cookie_repository', null );
+
+	if ( $repository ) {
+		$current_language = \apply_filters(
+			'wordpress_helfi_cookie_consent_current_language',
+			'en'
+		);
+
+		$categories = array_reduce(
+			$repository->cookie_lists()->all(),
+			function( $categories, $cookie_list ) use ( $current_language ) {
+				$categories[$cookie_list->name()] = $cookie_list->label( $current_language );
+
+				return $categories;
+			},
+			array()
+		);
+
+		if ( $categories ) {
+			$settings['categories'] = $categories;
+		}
+	}
 
 	return $settings;
 }
