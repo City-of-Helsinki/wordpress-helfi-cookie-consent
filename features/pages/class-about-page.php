@@ -101,7 +101,7 @@ final class About_Page implements Policy_Page
 	private function content_excerpt(): string
 	{
 		$content = sprintf(
-			'<div class="hds-lead-in excerpt">%s</div>',
+			'<div class="lead-in excerpt">%s</div>',
 			$this->get_content( $this->current_language )->excerpt()
 		);
 
