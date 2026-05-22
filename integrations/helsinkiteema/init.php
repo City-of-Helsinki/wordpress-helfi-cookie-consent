@@ -10,11 +10,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Nav_Menu_Checker;
 
+\add_action( 'wordpress_helfi_cookie_consent_setup', __NAMESPACE__ . '\\setup_cmplz_integration' );
+function setup_cmplz_integration(): void {
+	if ( 'wordpress-helfi-helsinkiteema' === wp_get_theme()->get_stylesheet() ) {
+		\add_filter( 'cmplz_integrations', __NAMESPACE__ . '\\provide_cmplz_integration' );
+		function provide_cmplz_integration( array $integrations ): array {
+			$integrations[cmplz_integration_name()] = array(
+				'constant_or_function' => __NAMESPACE__ . '\\cmplz_integration_name',
+				'label'                => __( 'Helsinki Askem', 'wordpress-helfi-cookie-consent' ),
+				'firstparty_marketing' => false,
+			);
+
+			return $integrations;
+		}
+
+		\add_filter( 'cmplz_integration_path', __NAMESPACE__ . '\\provide_cmplz_integration_path', 10, 2 );
+		function provide_cmplz_integration_path( string $path, string $integration ): string {
+			return cmplz_integration_name() === $integration
+				? \plugin_dir_path( __FILE__ ) . 'complianz/askem.php'
+				: $path;
+		}
+	}
+}
+
+function cmplz_integration_name(): string {
+	return 'helsinki_theme_askem';
+}
+
 \add_action( 'helsinki_theme_setup_ready', __NAMESPACE__ . '\\init', 10 );
 function init(): void {
-	if ( \did_action( 'helsinki_theme_setup_ready' ) ) {
-		\add_filter( 'wordpress_helfi_cookie_consent_helsinkiteema_active', '__return_true' );
-	}
+	\add_filter( 'wordpress_helfi_cookie_consent_helsinkiteema_active', '__return_true' );
 }
 
 \add_action( 'admin_init', __NAMESPACE__ . '\\admin_init' );
