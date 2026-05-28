@@ -69,26 +69,16 @@ final class Known_Cookies
 			WordPress_Test_Cookie::class,
 			WP_Postpass::class,
 			WP_Lang::class,
+			WordPress_Logged_In::class,
+			WordPress_Sec::class,
+			WP_Api_Schema_Model::class,
+			WP_Data_User::class,
+			WP_Preferences_User::class,
+			WP_Settings_Time::class,
+			WP_Settings::class,
+			WP_Autosave::class,
+			WP_Saving_Post::class,
 		);
-
-		if ( \is_user_logged_in() ) {
-			$cookies[] = WordPress_Logged_In::class;
-			$cookies[] = WordPress_Sec::class;
-			$cookies[] = WP_Api_Schema_Model::class;
-			$cookies[] = WP_Data_User::class;
-			$cookies[] = WP_Preferences_User::class;
-			$cookies[] = WP_Settings_Time::class;
-			$cookies[] = WP_Settings::class;
-
-			if (
-				\current_user_can( 'edit_posts' )
-				|| \current_user_can( 'edit_pages' )
-			) {
-				$cookies[] = WP_Autosave::class;
-				$cookies[] = WP_Saving_Post::class;
-			}
-
-		}
 
 		if ( \apply_filters( 'wordpress_helfi_cookie_consent_comments_enabled', false ) ) {
 			$cookies[] = Comment_Author_Email::class;
