@@ -22,7 +22,7 @@ final class About_Page_Fi
 
 	public function excerpt(): string
 	{
-		return '<p>Tällä sivulla kerrotaan sivuston käyttämistä evästeistä, henkilötietojen käsittelystä ja sisältöjen käyttöoikeudesta.</p>';
+		return 'Tällä sivulla kerrotaan sivuston käyttämistä evästeistä, henkilötietojen käsittelystä ja sisältöjen käyttöoikeudesta.';
 	}
 
 	public function body(): string

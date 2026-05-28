@@ -22,7 +22,7 @@ final class About_Page_Sv
 
 	public function excerpt(): string
 	{
-		return '<p>Information om kakor på webbplatsen, registrerades rättigheter och textinnehållets licensen.</p>';
+		return 'Information om kakor på webbplatsen, registrerades rättigheter och textinnehållets licensen.';
 	}
 
 	public function body(): string

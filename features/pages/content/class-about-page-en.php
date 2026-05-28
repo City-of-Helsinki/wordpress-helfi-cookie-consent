@@ -22,7 +22,7 @@ final class About_Page_En
 
 	public function excerpt(): string
 	{
-		return '<p>The page contains information on the use of cookies, rights of data subjects and text licensing.</p>';
+		return 'The page contains information on the use of cookies, rights of data subjects and text licensing.';
 	}
 
 	public function body(): string
