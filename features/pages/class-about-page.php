@@ -53,24 +53,23 @@ final class About_Page implements Policy_Page
 
 	public function content(): string
 	{
+		$content = \apply_filters(
+			'wordpress_helfi_cookie_consent_about_page_content',
+			array(
+				'title' => $this->content_title(),
+				'excerpt' => $this->content_excerpt(),
+				'divider' => $this->content_divider(),
+				'body' => $this->content_body(),
+			)
+		);
+
 		$content = sprintf(
 			'<div id="about-website" class="helfi-consent-page-content">
 				<div class="container">
-					<h1 class="title">
-						%s
-					</h1>
-					<div class="excerpt">
-						%s
-					</div>
-					<div class="page-divider"></div>
-					<div class="body">
-						%s
-					</div>
+					%s
 				</div>
 			</div>',
-			$this->get_content( $this->current_language )->title(),
-			$this->get_content( $this->current_language )->excerpt(),
-			$this->get_content( $this->current_language )->body()
+			implode( PHP_EOL, $content )
 		);
 
 		$placeholders = $this->placeholders();
@@ -82,6 +81,41 @@ final class About_Page implements Policy_Page
 				$content
 			)
 		);
+	}
+
+	private function content_title(): string
+	{
+		$content = sprintf(
+			'<h1 class="wp-block-heading title">%s</h1>',
+			$this->get_content( $this->current_language )->title()
+		);
+
+		return \apply_filters( 'wordpress_helfi_cookie_consent_about_page_content_title', $content );
+	}
+
+	private function content_divider(): string
+	{
+		return '<div class="page-divider"></div>';
+	}
+
+	private function content_excerpt(): string
+	{
+		$content = sprintf(
+			'<p class="lead-in excerpt">%s</p>',
+			$this->get_content( $this->current_language )->excerpt()
+		);
+
+		return \apply_filters( 'wordpress_helfi_cookie_consent_about_page_content_excerpt', $content );
+	}
+
+	private function content_body(): string
+	{
+		$content = sprintf(
+			'<div class="body">%s</div>',
+			$this->get_content( $this->current_language )->body()
+		);
+
+		return \apply_filters( 'wordpress_helfi_cookie_consent_about_page_content_body', $content );
 	}
 
 	private function placeholders(): array
@@ -109,7 +143,11 @@ final class About_Page implements Policy_Page
 		return array(
 			'{{helfi_cookie_policy}}' => function( string $url ) {
 				return $url ? sprintf(
-					'<a class="button" href="%s">%s</a>',
+					'<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+						<div class="wp-block-button">
+							<a class="wp-block-button__link wp-element-button" href="%s">%s</a>
+						</div>
+					</div>',
 					\esc_url( $url ),
 					\esc_html( __( 'Open the cookie settings', 'wordpress-helfi-cookie-consent' ) )
 				) : '';
