@@ -17,6 +17,6 @@ final class Remove_Setting implements Setting_Interface
 
 	public function value(): mixed
 	{
-		return false;
+		return true;
 	}
 }
