@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 \add_action( 'wordpress_helfi_cookie_consent_loaded', __NAMESPACE__ . '\\init' );
 function init(): void {
 	\add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register_assets' );
+	\add_action( 'login_enqueue_scripts', __NAMESPACE__ . '\\register_assets' );
 
 	\add_filter(
 		'wordpress_helfi_cookie_consent_settings_element_id',

@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function init(): void {
 	\add_action( 'rest_api_init', __NAMESPACE__ . '\\register_routes' );
 	\add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\register_rest_config' );
+	\add_action( 'login_enqueue_scripts', __NAMESPACE__ . '\\register_rest_config' );
 }
 
 function register_routes(): void {
