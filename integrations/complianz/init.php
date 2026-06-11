@@ -12,6 +12,7 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Adapter_Fa
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category_Factory;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Database;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Type_Factory;
+use cmplz_banner_loader;
 
 \add_action( 'wordpress_helfi_cookie_consent_loaded', __NAMESPACE__ . '\\init', 5 );
 function init(): void {
@@ -20,6 +21,7 @@ function init(): void {
 		\add_filter( 'cmplz_document_html', __NAMESPACE__ . '\\replace_cookie_statement', 99999, 3 );
 
 		\add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\disable_complianz_styles', PHP_INT_MAX - 49 );
+		\add_action( 'login_enqueue_scripts', __NAMESPACE__ . '\\enqueue_assets', PHP_INT_MAX - 50 );
 
 		\remove_action( 'wp_head', array( \cmplz_banner_loader::this(), 'cookiebanner_css' ) );
 		\remove_action( 'wp_footer', array( \cmplz_banner_loader::this(), 'cookiebanner_html' ) );
@@ -116,6 +118,10 @@ function replace_cookie_statement( string $html, string $type, int $post_id ): s
 	$id = \apply_filters( 'wordpress_helfi_cookie_consent_settings_element_id', '' );
 
 	return $id ? sprintf( '<div id="%s"></div>', \esc_attr( $id ) ) : '';
+}
+
+function enqueue_assets(): void {
+	cmplz_banner_loader::this()->enqueue_assets();
 }
 
 function disable_complianz_styles(): void {
