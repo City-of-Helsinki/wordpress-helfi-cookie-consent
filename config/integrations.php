@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 return array(
 	'complianz' => 'init',
+	'hdswp' => 'init',
 	'helsinkiteema' => 'init',
 	'polylang' => 'init',
 	'wordpressseo' => 'init',
