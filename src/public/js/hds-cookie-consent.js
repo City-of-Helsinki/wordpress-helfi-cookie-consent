@@ -1,61 +1,153 @@
 (function(hds, config){
   if (hds.CookieConsentCore && config.routes) {
-    init_handler(config);
+    const CONSENT_CHANGED = 'hds-cookie-consent-changed';
+    const CONSENT_GRANTED = 'wp-cookie-consent-granted';
 
-    function init_handler({routes, options, cookiesHandler}) {
+    initCookieConsent(config);
+
+    function CookieConsentFacade({cookieConsent}) {
+      return {
+        consents: () => cookieConsent.getAllConsentStatuses(),
+        grant: (groups) => {
+          if (! Array.isArray(groups)) {
+            groups = [groups];
+          }
+
+          cookieConsent.setGroupsStatusToAccepted(groups);
+        },
+      };
+    }
+
+    function Placeholder(element) {
+      const _consentButton = element?.querySelector('[data-wp-cookie-consent-grant]');
+      var _consentType = [];
+
+      if (_consentButton) {
+        _consentType = [
+          ...JSON.parse(_consentButton.getAttribute('data-wp-cookie-consent-grant'))
+        ];
+      }
+
+      if (_consentButton) {
+        _consentButton.disabled = false;
+        _consentButton.addEventListener('click', (event) => dispatchConsentGranted(_consentType));
+      }
+
+      return {
+        requiresConsentType: (type) => _consentType.includes(type),
+      };
+    }
+
+    function IframeLoader(element) {
+      const _placeholder = Placeholder(
+        element.querySelector('.wp-cookie-consent-placeholder')
+      );
+
+      const _shouldLoad = (consents) => {
+        return consents.reduce((current, {group, consented}) => {
+          return _placeholder.requiresConsentType(group) ? consented : current;
+        }, false);
+      };
+
+      const _load = () => {
+        let attributes = JSON.parse(element.getAttribute('data-wp-cookie-consent-iframe'));
+        let iframe = document.createElement('iframe');
+
+        for (let attribute in attributes) {
+          iframe.setAttribute(attribute, attributes[attribute]);
+        }
+
+        element.replaceWith(iframe);
+
+        return true;
+      };
+
+      return {
+        load: (consents) => (_shouldLoad(consents) && _load()),
+      };
+    }
+
+    function dispatchConsentGranted(type) {
+      window.dispatchEvent(new CustomEvent(CONSENT_GRANTED, {detail: {group: type}}));
+    }
+
+    function initCookieConsent(config) {
+      let {cookiesHandler} = config || {};
+
       let handlers = {
-        complianz: complianz_cookies_handler,
-        none: no_cookies_handler,
+        complianz: createComplianzAdapter,
+        none: noCookiesHandler,
       };
 
       if (! handlers.hasOwnProperty(cookiesHandler)) {
         cookiesHandler = 'none';
       }
 
-      handlers[cookiesHandler](
-        create_cookie_consent(routes.settings, options)
-      );
+      createCookieConsent(config)
+        .then(cookieConsent => {
+          const facade = CookieConsentFacade({
+            ...config,
+            cookieConsent
+          });
+
+          handlers[cookiesHandler](facade);
+          createIframeLoaders(facade);
+
+          window.addEventListener(CONSENT_GRANTED, (event) => facade.grant(event.detail.group));
+        })
+        .catch(error => console.error(error));
     }
 
-    function complianz_cookies_handler(cookieConsentPromise) {
+    function createIframeLoaders(facade) {
+      let iframes = document.querySelectorAll('[data-wp-cookie-consent-iframe]');
+      iframes = Array.from(iframes).map(iframe => IframeLoader(iframe));
+
+      const maybeLoadIframes = () => {
+        iframes = iframes.filter(iframe => !iframe.load(facade.consents()));
+
+        if (! iframes.length) {
+          window.removeEventListener(CONSENT_CHANGED, maybeLoadIframes);
+        }
+      };
+
+      if (iframes.length) {
+        window.addEventListener(CONSENT_CHANGED, maybeLoadIframes);
+
+        maybeLoadIframes();
+      }
+    }
+
+    function createComplianzAdapter(facade) {
       const allow = (group) => cmplz_set_consent(group, 'allow');
       const deny = (group) => cmplz_set_consent(group, 'deny');
       const denyAll = () => cmplz_deny_all();
 
-      const handleComplianzCategoryEnabled = (event) => {
-        if (hds.cookieConsent) {
-          hds.cookieConsent.setGroupsStatusToAccepted([event.detail.category]);
-        }
-      }
+      const handleComplianzCategoryEnabled = (event) => facade.grant(event.detail.category);
 
       const handleConsentChanges = () => {
-        if (hds.cookieConsent) {
-          document.removeEventListener('cmplz_enable_category', handleComplianzCategoryEnabled);
+        document.removeEventListener('cmplz_enable_category', handleComplianzCategoryEnabled);
 
-          hds.cookieConsent.getAllConsentStatuses()
-            .forEach(({consented, group}) => consented ? allow(group) : deny(group));
+        facade.consents().forEach(({consented, group}) => consented ? allow(group) : deny(group));
 
-          document.addEventListener('cmplz_enable_category', handleComplianzCategoryEnabled);
-        }
+        document.addEventListener('cmplz_enable_category', handleComplianzCategoryEnabled);
       };
 
-      window.addEventListener('hds-cookie-consent-ready', handleConsentChanges);
-      window.addEventListener('hds-cookie-consent-changed', handleConsentChanges);
+      handleConsentChanges();
 
-      // window.addEventListener('hds-cookie-consent-unapproved-item-found', event => console.log(event));
+      window.addEventListener(CONSENT_CHANGED, handleConsentChanges);
     }
 
-    function no_cookies_handler() {
+    function noCookiesHandler() {
       console.error('no cookies handler');
     }
 
-    function create_cookie_consent(settingsUrl, options) {
+    function createCookieConsent({routes, options}) {
       return hds.CookieConsentCore.create(
         (({language}) => {
           let params = new URLSearchParams();
           params.append('lang', language);
 
-          return settingsUrl + '?' + params.toString();
+          return routes.settings + '?' + params.toString();
         })(options),
         options
       );
