@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use CityOfHelsinki\WordPress\CookieConsent\Features\Placeholders\Content\Iframe_Placeholder;
+
 \add_action( 'wordpress_helfi_cookie_consent_loaded', __NAMESPACE__ . '\\init' );
 function init(): void {
 
@@ -18,6 +20,10 @@ function init(): void {
 	);
 
 };
+
+function create_placeholder( Placeholder_Content $content ): Placeholder {
+	return new Placeholder( $content );
+}
 
 function render_iframe_placeholder( string $html, string $source ): string {
 	$provider = iframe_placeholder_cookie_host( $source );
@@ -30,7 +36,8 @@ function render_iframe_placeholder( string $html, string $source ): string {
 		return $html;
 	}
 
-	return (new Placeholder( $source, ...$categories ))->render();
+	return create_placeholder(new Iframe_Placeholder( $source, ...$categories ))
+		->render();
 }
 
 function iframe_placeholder_cookie_host( string $source ): string {
