@@ -31,7 +31,7 @@ function script_load_embedded_figure_iframe( string $iframe, string $type, array
 
 	if ( $placeholder ) {
 		return sprintf(
-			'<div data-wp-cookie-consent-iframe="%1$s">%2$s</div>',
+			'<div class="wp-cookie-consent-iframe has-placeholder" data-wp-cookie-consent-iframe="%1$s">%2$s</div>',
 			htmlspecialchars( json_encode( $attributes ) ),
 			\wp_kses_post( $placeholder )
 		);
