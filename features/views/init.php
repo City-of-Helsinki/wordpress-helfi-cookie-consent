@@ -54,6 +54,14 @@ function register_assets(): void {
 		)
 	);
 
+	\wp_enqueue_style(
+		'hel-cookie-consent',
+		$url . 'public/css/' . ( $debug ? 'styles.css' : 'styles.min.css' ),
+		array(),
+		$version,
+		'all'
+	);
+
 	register_settings_element_inline_styles();
 }
 

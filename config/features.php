@@ -8,6 +8,7 @@ return array(
 	'models' => 'providers',
 	'notices' => 'init',
 	'pages' => 'init',
+	'placeholders' => 'init',
 	'views' => 'init',
 	'rest' => 'init',
 	'settings' => 'init',
