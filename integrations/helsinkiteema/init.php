@@ -14,23 +14,58 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Nav_Menu_Checker;
 function setup_cmplz_integration(): void {
 	if ( 'wordpress-helfi-helsinkiteema' === wp_get_theme()->get_stylesheet() ) {
 		\add_filter( 'cmplz_integrations', __NAMESPACE__ . '\\provide_cmplz_integration' );
-		function provide_cmplz_integration( array $integrations ): array {
-			$integrations[cmplz_integration_name()] = array(
-				'constant_or_function' => __NAMESPACE__ . '\\cmplz_integration_name',
-				'label'                => __( 'Helsinki Askem', 'wordpress-helfi-cookie-consent' ),
-				'firstparty_marketing' => false,
+		\add_filter( 'cmplz_integration_path', __NAMESPACE__ . '\\provide_cmplz_integration_path', 10, 2 );
+
+		\add_action( 'template_redirect', __NAMESPACE__ . '\\provide_askem_placeholder' );
+	}
+}
+
+function provide_askem_placeholder(): void {
+	\add_filter(
+		'helsinki_feedback_buttons_script_url',
+		function( string $url ): string {
+			$placeholder = \apply_filters(
+				'wordpress_helfi_cookie_consent_script_placeholder',
+				'',
+				$url
 			);
 
-			return $integrations;
-		}
+			if ( $placeholder ) {
+				\add_filter(
+					'helsinki_feedback_buttons_html',
+					fn( string $html ) => sprintf(
+						'%1$s
+						<div class="wp-cookie-consent-script has-placeholder" data-wp-cookie-consent-script="%2$s">
+							%3$s
+						</div>',
+						$html,
+						htmlspecialchars( json_encode( array( 'src' => \esc_url( $url ) ) ) ),
+						\wp_kses_post( $placeholder )
+					)
+				);
 
-		\add_filter( 'cmplz_integration_path', __NAMESPACE__ . '\\provide_cmplz_integration_path', 10, 2 );
-		function provide_cmplz_integration_path( string $path, string $integration ): string {
-			return cmplz_integration_name() === $integration
-				? \plugin_dir_path( __FILE__ ) . 'complianz/askem.php'
-				: $path;
+				return '';
+			}
+
+			return $url;
 		}
-	}
+	);
+}
+
+function provide_cmplz_integration( array $integrations ): array {
+	$integrations[cmplz_integration_name()] = array(
+		'constant_or_function' => __NAMESPACE__ . '\\cmplz_integration_name',
+		'label'                => __( 'Helsinki Askem', 'wordpress-helfi-cookie-consent' ),
+		'firstparty_marketing' => false,
+	);
+
+	return $integrations;
+}
+
+function provide_cmplz_integration_path( string $path, string $integration ): string {
+	return cmplz_integration_name() === $integration
+		? \plugin_dir_path( __FILE__ ) . 'complianz/askem.php'
+		: $path;
 }
 
 function cmplz_integration_name(): string {
