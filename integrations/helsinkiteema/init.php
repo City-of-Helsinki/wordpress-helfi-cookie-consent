@@ -14,9 +14,6 @@ use CityOfHelsinki\WordPress\Helsinki\Theme\Integrations\Askem\Feedback_Buttons_
 \add_action( 'wordpress_helfi_cookie_consent_setup', __NAMESPACE__ . '\\setup_cmplz_integration' );
 function setup_cmplz_integration(): void {
 	if ( 'wordpress-helfi-helsinkiteema' === wp_get_theme()->get_stylesheet() ) {
-		\add_filter( 'cmplz_integrations', __NAMESPACE__ . '\\provide_cmplz_integration' );
-		\add_filter( 'cmplz_integration_path', __NAMESPACE__ . '\\provide_cmplz_integration_path', 10, 2 );
-
 		\add_action(
 			'helsinki_feedback_buttons_setup',
 			__NAMESPACE__ . '\\provide_askem_placeholder'
@@ -46,26 +43,6 @@ function provide_askem_placeholder( Feedback_Buttons_Setup $setup ): void {
 			)
 		);
 	}
-}
-
-function provide_cmplz_integration( array $integrations ): array {
-	$integrations[cmplz_integration_name()] = array(
-		'constant_or_function' => __NAMESPACE__ . '\\cmplz_integration_name',
-		'label'                => __( 'Helsinki Askem', 'wordpress-helfi-cookie-consent' ),
-		'firstparty_marketing' => false,
-	);
-
-	return $integrations;
-}
-
-function provide_cmplz_integration_path( string $path, string $integration ): string {
-	return cmplz_integration_name() === $integration
-		? \plugin_dir_path( __FILE__ ) . 'complianz/askem.php'
-		: $path;
-}
-
-function cmplz_integration_name(): string {
-	return 'helsinki_theme_askem';
 }
 
 \add_action( 'helsinki_theme_setup_ready', __NAMESPACE__ . '\\init', 10 );
