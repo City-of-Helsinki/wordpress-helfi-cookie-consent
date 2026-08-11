@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-27 10:58+0000\n"
-"PO-Revision-Date: 2025-10-06 12:28+0000\n"
+"PO-Revision-Date: 2026-08-11 07:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -15,12 +15,20 @@ msgstr ""
 "X-Loco-Version: 2.8.0; wp-6.7.2; php-8.3.20\n"
 "X-Domain: wordpress-helfi-cookie-consent"
 
+#: features/settings/reading/class-about-website-page-field.php:22
+msgid "About the website page"
+msgstr "Om webbplatssidan"
+
+#: features/placeholders/class-placeholder-categories.php:37
+msgid "and"
+msgstr "och"
+
 #: features/models/types/class-cache-storage-cookie-type.php:36
 msgid "Cache Storage"
 msgstr "Cache Storage"
 
 #. Author of the plugin
-#: features/pages/class-custom-page-hooks.php:156
+#: features/pages/class-custom-page-hooks.php:173
 msgid "City of Helsinki"
 msgstr "Helsingfors stad"
 
@@ -28,21 +36,41 @@ msgstr "Helsingfors stad"
 msgid "Cookie"
 msgstr "Cookie"
 
+#: features/settings/reading/class-cookie-policy-page-field.php:22
+msgid "Cookie policy page"
+msgstr "Cookie -inställningar"
+
 #: features/pages/class-nav-menu-policy-pages-added-notice.php:43
 #, php-format
 msgid "Cookie policy pages added to the \"%s\" navigation menu."
 msgstr "Sidor om cookiepolicy har lagts till i navigeringsmenyn \"%s\"."
 
-#: features/pages/class-cookie-policy-page.php:40
+#: features/pages/class-cookie-policy-page.php:43
 msgid "Cookie settings"
 msgstr ""
 " Cookie -inställningar\n"
+
+#: features/settings/reading/class-enable-custom-pages-field.php:22
+msgid "Custom pages"
+msgstr "Anpassade sidor"
+
+#: features/settings/reading/class-enable-custom-pages-field.php:37
+msgid "Enable custom pages"
+msgstr "Aktivera anpassade sidor"
+
+#: features/settings/reading/class-enable-custom-pages-field.php:42
+msgid "Enabling custom pages disables the default page paths."
+msgstr "Om du aktiverar anpassade sidor inaktiveras standardsidsökvägarna."
 
 #: features/models/categories/class-functional-cookie-category.php:44
 msgid "Functional"
 msgstr "Funktionell"
 
-#: features/pages/init.php:91
+#: integrations/helsinkiteema/init.php:54
+msgid "Helsinki Askem"
+msgstr "Helsingfors Askem"
+
+#: features/pages/init.php:93
 msgid "Helsinki Cookie Consent"
 msgstr "Helsinki Cookie Consent"
 
@@ -73,9 +101,49 @@ msgstr ""
 "spåra användaren på denna webbplats eller på flera webbplatser för liknande "
 "marknadsföringssyften."
 
-#: features/pages/class-about-page.php:111
+#: features/pages/class-about-page.php:152
 msgid "Open the cookie settings"
 msgstr "Öppna inställningar för kakor"
+
+#: features/placeholders/content/class-iframe-placeholder.php:96
+#: features/placeholders/content/class-script-placeholder.php:64
+msgctxt "placeholder notice button"
+msgid "Accept required cookies"
+msgstr "Acceptera obligatoriska cookies"
+
+#: features/placeholders/content/class-iframe-placeholder.php:74
+msgctxt "placeholder notice button"
+msgid "See content on external site"
+msgstr "Se innehåll på extern webbplats"
+
+#: features/placeholders/content/class-script-placeholder.php:46
+#, php-format
+msgctxt "placeholder notice text"
+msgid "Enabling the usage of %1$s cookies will allow you to share your input."
+msgstr ""
+"Om du aktiverar användningen av %1$s cookies kan du dela dina synpunkter."
+
+#: features/placeholders/content/class-iframe-placeholder.php:51
+#, php-format
+msgctxt "placeholder notice text"
+msgid ""
+"This content is hosted by %1$s. To see the content, switch over to the "
+"external site or accept the usage of %2$s cookies."
+msgstr ""
+"Det här innehållet hämtas från %1$s. För att visa innehållet krävs att du "
+"godkänner webbplatsens cookies. Du kan se innehållet antingen genom att gå "
+"till en extern webbplats eller genom att ge ditt samtycke till användningen "
+"av cookies för %2$s."
+
+#: features/placeholders/content/class-iframe-placeholder.php:34
+msgctxt "placeholder notice title"
+msgid "Content cannot be displayed"
+msgstr "Innehållet kan inte visas"
+
+#: features/placeholders/content/class-script-placeholder.php:34
+msgctxt "placeholder notice title"
+msgid "Would you like to give feedback on this page?"
+msgstr "Vill du ge oss feedback om denna sida?"
 
 #: features/notices/class-missing-cookie-provider-notice.php:40
 msgid ""
@@ -94,6 +162,11 @@ msgstr ""
 #: features/models/categories/class-preferences-cookie-category.php:44
 msgid "Preferences"
 msgstr "Preferens"
+
+#: features/settings/reading/class-about-website-page-field.php:37
+#: features/settings/reading/class-cookie-policy-page-field.php:37
+msgid "Select a page"
+msgstr "Välj en sida"
 
 #: features/models/types/class-session-storage-cookie-type.php:36
 msgid "sessionStorage"
@@ -138,6 +211,7 @@ msgid "Unknown"
 msgstr "Okänd"
 
 #. Name of the plugin
+#: features/settings/reading/class-reading-settings.php:17
 msgid "WordPress Helsinki Cookie Consent"
 msgstr "WordPress Helsinki Cookie Consent"
 

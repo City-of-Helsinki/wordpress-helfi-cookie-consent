@@ -38,7 +38,7 @@
       };
     }
 
-    function IframeLoader(element) {
+    function PlaceholderLoader({element, tag, dataAttr}) {
       const _placeholder = Placeholder(
         element.querySelector('.wp-cookie-consent-placeholder')
       );
@@ -50,14 +50,14 @@
       };
 
       const _load = () => {
-        let attributes = JSON.parse(element.getAttribute('data-wp-cookie-consent-iframe'));
-        let iframe = document.createElement('iframe');
+        let attributes = JSON.parse(element.getAttribute(dataAttr));
+        let createdElement = document.createElement(tag);
 
         for (let attribute in attributes) {
-          iframe.setAttribute(attribute, attributes[attribute]);
+          createdElement.setAttribute(attribute, attributes[attribute]);
         }
 
-        element.replaceWith(iframe);
+        element.replaceWith(createdElement);
 
         return true;
       };
@@ -92,6 +92,7 @@
 
           handlers[cookiesHandler](facade);
           createIframeLoaders(facade);
+          createScriptLoaders(facade);
 
           window.addEventListener(CONSENT_GRANTED, (event) => facade.grant(event.detail.group));
         })
@@ -100,20 +101,43 @@
 
     function createIframeLoaders(facade) {
       let iframes = document.querySelectorAll('[data-wp-cookie-consent-iframe]');
-      iframes = Array.from(iframes).map(iframe => IframeLoader(iframe));
 
-      const maybeLoadIframes = () => {
-        iframes = iframes.filter(iframe => !iframe.load(facade.consents()));
+      setupLoaders(
+        facade,
+        Array.from(iframes).map(iframe => PlaceholderLoader({
+          element: iframe,
+          tag: 'iframe',
+          dataAttr: 'data-wp-cookie-consent-iframe',
+        }))
+      );
+    }
 
-        if (! iframes.length) {
-          window.removeEventListener(CONSENT_CHANGED, maybeLoadIframes);
+    function createScriptLoaders(facade) {
+      let scripts = document.querySelectorAll('[data-wp-cookie-consent-script]');
+
+      setupLoaders(
+        facade,
+        Array.from(scripts).map(script => PlaceholderLoader({
+          element: script,
+          tag: 'script',
+          dataAttr: 'data-wp-cookie-consent-script',
+        }))
+      );
+    }
+
+    function setupLoaders(facade, loaders) {
+      const maybeRunLoaders = () => {
+        loaders = loaders.filter(loader => !loader.load(facade.consents()));
+
+        if (! loaders.length) {
+          window.removeEventListener(CONSENT_CHANGED, maybeRunLoaders);
         }
       };
 
-      if (iframes.length) {
-        window.addEventListener(CONSENT_CHANGED, maybeLoadIframes);
+      if (loaders.length) {
+        window.addEventListener(CONSENT_CHANGED, maybeRunLoaders);
 
-        maybeLoadIframes();
+        maybeRunLoaders();
       }
     }
 
