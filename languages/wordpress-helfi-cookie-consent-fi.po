@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-27 10:56+0000\n"
-"PO-Revision-Date: 2025-10-06 12:27+0000\n"
+"PO-Revision-Date: 2026-08-11 07:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: Suomi\n"
 "Language: fi\n"
@@ -15,12 +15,20 @@ msgstr ""
 "X-Loco-Version: 2.8.0; wp-6.7.2; php-8.3.20\n"
 "X-Domain: wordpress-helfi-cookie-consent"
 
+#: features/settings/reading/class-about-website-page-field.php:22
+msgid "About the website page"
+msgstr "Tietoa sivustosta"
+
+#: features/placeholders/class-placeholder-categories.php:37
+msgid "and"
+msgstr "ja"
+
 #: features/models/types/class-cache-storage-cookie-type.php:36
 msgid "Cache Storage"
 msgstr "Cache Storage"
 
 #. Author of the plugin
-#: features/pages/class-custom-page-hooks.php:156
+#: features/pages/class-custom-page-hooks.php:173
 msgid "City of Helsinki"
 msgstr "Helsingin kaupunki"
 
@@ -28,20 +36,40 @@ msgstr "Helsingin kaupunki"
 msgid "Cookie"
 msgstr "Eväste"
 
+#: features/settings/reading/class-cookie-policy-page-field.php:22
+msgid "Cookie policy page"
+msgstr "Evästeselostesivu"
+
 #: features/pages/class-nav-menu-policy-pages-added-notice.php:43
 #, php-format
 msgid "Cookie policy pages added to the \"%s\" navigation menu."
 msgstr "Evästekäytäntösivut lisätty navigointivalikkoon \"%s\"."
 
-#: features/pages/class-cookie-policy-page.php:40
+#: features/pages/class-cookie-policy-page.php:43
 msgid "Cookie settings"
 msgstr "Evästeasetukset"
+
+#: features/settings/reading/class-enable-custom-pages-field.php:22
+msgid "Custom pages"
+msgstr "Mukautetut sivut"
+
+#: features/settings/reading/class-enable-custom-pages-field.php:37
+msgid "Enable custom pages"
+msgstr "Ota käyttöön mukautetut sivut"
+
+#: features/settings/reading/class-enable-custom-pages-field.php:42
+msgid "Enabling custom pages disables the default page paths."
+msgstr "Mukautettujen sivujen käyttäminen poistaa oletussivupolut käytöstä."
 
 #: features/models/categories/class-functional-cookie-category.php:44
 msgid "Functional"
 msgstr "Toiminnallinen"
 
-#: features/pages/init.php:91
+#: integrations/helsinkiteema/init.php:54
+msgid "Helsinki Askem"
+msgstr "Helsinki Askem"
+
+#: features/pages/init.php:93
 msgid "Helsinki Cookie Consent"
 msgstr "Helsinki Evästehallinta"
 
@@ -72,9 +100,47 @@ msgstr ""
 "käyttäjän seuraamiseksi tällä verkkosivustolla tai useilla verkkosivustoilla "
 "vastaavissa markkinointitarkoituksissa."
 
-#: features/pages/class-about-page.php:111
+#: features/pages/class-about-page.php:152
 msgid "Open the cookie settings"
 msgstr "Avaa evästeasetukset"
+
+#: features/placeholders/content/class-iframe-placeholder.php:96
+#: features/placeholders/content/class-script-placeholder.php:64
+msgctxt "placeholder notice button"
+msgid "Accept required cookies"
+msgstr "Hyväksy vaaditut evästeet"
+
+#: features/placeholders/content/class-iframe-placeholder.php:74
+msgctxt "placeholder notice button"
+msgid "See content on external site"
+msgstr "Siirry ulkoiselle sivustolle"
+
+#: features/placeholders/content/class-script-placeholder.php:46
+#, php-format
+msgctxt "placeholder notice text"
+msgid "Enabling the usage of %1$s cookies will allow you to share your input."
+msgstr "Pääset antamaan palautetta, jos sallit %1$s eväasteiden käytön."
+
+#: features/placeholders/content/class-iframe-placeholder.php:51
+#, php-format
+msgctxt "placeholder notice text"
+msgid ""
+"This content is hosted by %1$s. To see the content, switch over to the "
+"external site or accept the usage of %2$s cookies."
+msgstr ""
+"Tämä sisältö haetaan osoitteesta %1$s. Sen näyttämiseen vaaditaan, että "
+"hyväksyt sivuston evästeet. Pääset näkemään sisällön joko siirtymällä "
+"ulkoiselle sivustolle tai sallimalla %2$s evästeet."
+
+#: features/placeholders/content/class-iframe-placeholder.php:34
+msgctxt "placeholder notice title"
+msgid "Content cannot be displayed"
+msgstr "Sisältöä ei voida näyttää"
+
+#: features/placeholders/content/class-script-placeholder.php:34
+msgctxt "placeholder notice title"
+msgid "Would you like to give feedback on this page?"
+msgstr "Haluatko antaa meille palautetta tästä sivusta?"
 
 #: features/notices/class-missing-cookie-provider-notice.php:40
 msgid ""
@@ -94,6 +160,11 @@ msgstr ""
 #: features/models/categories/class-preferences-cookie-category.php:44
 msgid "Preferences"
 msgstr "Personointi"
+
+#: features/settings/reading/class-about-website-page-field.php:37
+#: features/settings/reading/class-cookie-policy-page-field.php:37
+msgid "Select a page"
+msgstr "Valitse sivu"
 
 #: features/models/types/class-session-storage-cookie-type.php:36
 msgid "sessionStorage"
@@ -138,6 +209,7 @@ msgid "Unknown"
 msgstr "Tuntematon"
 
 #. Name of the plugin
+#: features/settings/reading/class-reading-settings.php:17
 msgid "WordPress Helsinki Cookie Consent"
 msgstr "WordPress Helsinki Evästehallinta"
 
