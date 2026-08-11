@@ -8,25 +8,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Cookie_Category;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Placeholders\Placeholder_Categories;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Placeholders\Placeholder_Content_Config;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Placeholders\Placeholder_Content;
 
 final class Iframe_Placeholder implements Placeholder_Content
 {
-	private array $categories;
-
 	public function __construct(
-		private string $source,
-		Cookie_Category ...$categories
-	) {
-		$this->categories = $categories;
-	}
+		private Placeholder_Content_Config $config
+	) {}
 
 	public function notice_icon(): string
 	{
 		return \apply_filters(
 			'wordpress_helfi_cookie_consent_iframe_placeholder_notice_icon',
-			'alert-circle-fill'
+			$this->config->icon,
+			$this->config->source
 		);
 	}
 
@@ -34,44 +31,31 @@ final class Iframe_Placeholder implements Placeholder_Content
 	{
 		return \apply_filters(
 			'wordpress_helfi_cookie_consent_iframe_placeholder_notice_title',
-			_x( 'Content cannot be displayed', 'placeholder notice title', 'wordpress-helfi-cookie-consent' )
+			_x( 'Content cannot be displayed', 'placeholder notice title', 'wordpress-helfi-cookie-consent' ),
+			$this->config->source
 		);
 	}
 
 	public function notice_text(): string
 	{
-		$cat_count = count( $this->categories );
-		$categories = '';
-		$cat_sep = ', ';
-
-		foreach ( $this->categories as $cat_i => $category ) {
-			if ( $cat_i > 0 ) {
-				if ( ($cat_i + 1) === $cat_count ) {
-					$cat_sep = sprintf( ' %s ', _x( 'and', 'wordpress-helfi-cookie-consent' ) );
-				}
-
-				$categories .= $cat_sep;
-			}
-
-			$categories .= mb_strtolower( $category->label() );
-		}
+		$cat_labels = $this->config->categories->labels_text();
 
 		$source = \shortcode_atts( array(
 			'scheme' => '',
 			'host' => '',
-		), parse_url( $this->source ) );
+		), parse_url( $this->config->source ) );
 
 		return \apply_filters(
 			'wordpress_helfi_cookie_consent_iframe_placeholder_notice_text',
 			sprintf(
 				_x( 'This content is hosted by %1$s. To see the content, switch over to the external site or accept the usage of %2$s cookies.', 'placeholder notice text', 'wordpress-helfi-cookie-consent' ),
 				implode( '://', $source ),
-				$categories
+				$cat_labels
 			),
 			$source,
-			$categories,
-			$this->source,
-			$this->categories
+			$cat_labels,
+			$this->config->source,
+			$this->config->categories->list()
 		);
 	}
 
@@ -87,12 +71,13 @@ final class Iframe_Placeholder implements Placeholder_Content
 	{
 		$content = \apply_filters(
 			'wordpress_helfi_cookie_consent_iframe_placeholder_notice_external_button_text',
-			_x( 'See content on external site', 'placeholder notice button', 'wordpress-helfi-cookie-consent' )
+			_x( 'See content on external site', 'placeholder notice button', 'wordpress-helfi-cookie-consent' ),
+			$this->config->source
 		);
 
 		$url = \apply_filters(
 			'wordpress_helfi_cookie_consent_iframe_placeholder_notice_external_button_url',
-			$this->source
+			$this->config->source
 		);
 
 		return sprintf(
@@ -106,21 +91,17 @@ final class Iframe_Placeholder implements Placeholder_Content
 
 	private function notice_grant_button(): string
 	{
-		$categories = array_values( array_map(
-			fn( Cookie_Category $category ) => $category->name(),
-			$this->categories
-		) );
-
 		$content = \apply_filters(
 			'wordpress_helfi_cookie_consent_iframe_placeholder_notice_grant_button_text',
-			_x( 'Accept required cookies', 'placeholder notice button', 'wordpress-helfi-cookie-consent' )
+			_x( 'Accept required cookies', 'placeholder notice button', 'wordpress-helfi-cookie-consent' ),
+			$this->config->source
 		);
 
 		return sprintf(
 			'<div class="wp-block-button is-style-secondary">
 				<button class="wp-element-button" type="button" data-wp-cookie-consent-grant="%1$s" disabled>%2$s</button>
 			</div>',
-			htmlspecialchars( json_encode( $categories ) ),
+			htmlspecialchars( json_encode( $this->config->categories->names() ) ),
 			\esc_html( $content )
 		);
 	}
