@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Nav_Menu_Checker;
+use CityOfHelsinki\WordPress\Helsinki\Theme\Integrations\Askem\Feedback_Buttons_Setup;
 
 \add_action( 'wordpress_helfi_cookie_consent_setup', __NAMESPACE__ . '\\setup_cmplz_integration' );
 function setup_cmplz_integration(): void {
@@ -16,40 +17,35 @@ function setup_cmplz_integration(): void {
 		\add_filter( 'cmplz_integrations', __NAMESPACE__ . '\\provide_cmplz_integration' );
 		\add_filter( 'cmplz_integration_path', __NAMESPACE__ . '\\provide_cmplz_integration_path', 10, 2 );
 
-		\add_action( 'template_redirect', __NAMESPACE__ . '\\provide_askem_placeholder' );
+		\add_action(
+			'helsinki_feedback_buttons_setup',
+			__NAMESPACE__ . '\\provide_askem_placeholder'
+		);
 	}
 }
 
-function provide_askem_placeholder(): void {
-	\add_filter(
-		'helsinki_feedback_buttons_script_url',
-		function( string $url ): string {
-			$placeholder = \apply_filters(
-				'wordpress_helfi_cookie_consent_script_placeholder',
-				'',
-				$url
-			);
-
-			if ( $placeholder ) {
-				\add_filter(
-					'helsinki_feedback_buttons_html',
-					fn( string $html ) => sprintf(
-						'%1$s
-						<div class="wp-cookie-consent-script has-placeholder" data-wp-cookie-consent-script="%2$s">
-							%3$s
-						</div>',
-						$html,
-						htmlspecialchars( json_encode( array( 'src' => \esc_url( $url ) ) ) ),
-						\wp_kses_post( $placeholder )
-					)
-				);
-
-				return '';
-			}
-
-			return $url;
-		}
+function provide_askem_placeholder( Feedback_Buttons_Setup $setup ): void {
+	$placeholder = \apply_filters(
+		'wordpress_helfi_cookie_consent_script_placeholder',
+		'',
+		$setup->script()
 	);
+
+	if ( $placeholder ) {
+		$setup->enable_script( false );
+
+		$attributes = array(
+			'src' => \esc_url( $setup->script() ),
+		);
+
+		$setup->prepend_html(
+			sprintf(
+				'<div class="wp-cookie-consent-script has-placeholder" data-wp-cookie-consent-script="%1$s">%2$s</div>',
+				htmlspecialchars( json_encode( $attributes ) ),
+				\wp_kses_post( $placeholder )
+			)
+		);
+	}
 }
 
 function provide_cmplz_integration( array $integrations ): array {
