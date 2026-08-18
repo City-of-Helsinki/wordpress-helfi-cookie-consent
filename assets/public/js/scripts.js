@@ -7,6 +7,7 @@
       cookieConsent
     }) {
       return {
+        openBanner: () => cookieConsent.openBanner(),
         consents: () => cookieConsent.getAllConsentStatuses(),
         grant: groups => {
           if (!Array.isArray(groups)) {
@@ -80,11 +81,21 @@
           ...config,
           cookieConsent
         });
+        initBannerButton(facade);
         handlers[cookiesHandler](facade);
         createIframeLoaders(facade);
         createScriptLoaders(facade);
         window.addEventListener(CONSENT_GRANTED, event => facade.grant(event.detail.group));
       }).catch(error => console.error(error));
+    }
+    function initBannerButton(facade) {
+      const button = document.getElementById('wp-cookie-consent-open');
+      if (button) {
+        button.addEventListener('click', event => {
+          event.preventDefault();
+          facade.openBanner();
+        });
+      }
     }
     function createIframeLoaders(facade) {
       let iframes = document.querySelectorAll('[data-wp-cookie-consent-iframe]');

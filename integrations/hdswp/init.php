@@ -18,6 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			10, 3
 		);
 
+		\add_action(
+			'helsinki_maintenance_footer',
+			__NAMESPACE__ . '\\render_cookie_banner_button',
+			30
+		);
+
 	} );
 
 } );
@@ -38,4 +44,11 @@ function script_load_embedded_figure_iframe( string $iframe, string $type, array
 	}
 
 	return $iframe;
+}
+
+function render_cookie_banner_button(): void {
+	printf(
+		'<button id="wp-cookie-consent-open" class="link" type="button">%s</button>',
+		\esc_html( __( 'Cookie settings', 'wordpress-helfi-cookie-consent' ) )
+	);
 }
