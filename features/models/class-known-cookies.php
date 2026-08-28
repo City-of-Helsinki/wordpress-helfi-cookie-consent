@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Known_Cookie_Data;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Cookies\HDS_Cookie_Consent;
+use CityOfHelsinki\WordPress\CookieConsent\Features\Cookies\Helfi_Load_Balancer;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Cookies\WordPress\Comment_Author_Email;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Cookies\WordPress\Comment_Author_Url;
 use CityOfHelsinki\WordPress\CookieConsent\Features\Cookies\WordPress\Comment_Author;
@@ -65,6 +66,7 @@ final class Known_Cookies
 	private function default_cookies(): array
 	{
 		$cookies = array(
+			Helfi_Load_Balancer::class,
 			HDS_Cookie_Consent::class,
 			WordPress_Test_Cookie::class,
 			WP_Postpass::class,
