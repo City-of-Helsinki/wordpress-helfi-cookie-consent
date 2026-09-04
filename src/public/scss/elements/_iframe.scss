@@ -1,0 +1,7 @@
+.wp-cookie-consent-iframe {
+  background-color: var(--cookie-consent-iframe-background-color, #e6e6e6);
+}
+
+.wp-block-helsinki .wp-block-embed .wp-block-embed__wrapper .wp-cookie-consent-iframe {
+  aspect-ratio: inherit;
+}

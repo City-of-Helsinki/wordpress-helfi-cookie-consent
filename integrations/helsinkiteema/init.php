@@ -9,32 +9,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WordPress\CookieConsent\Features\Models\Nav_Menu_Checker;
+use CityOfHelsinki\WordPress\Helsinki\Theme\Integrations\Askem\Feedback_Buttons_Setup;
 
 \add_action( 'wordpress_helfi_cookie_consent_setup', __NAMESPACE__ . '\\setup_cmplz_integration' );
 function setup_cmplz_integration(): void {
 	if ( 'wordpress-helfi-helsinkiteema' === wp_get_theme()->get_stylesheet() ) {
-		\add_filter( 'cmplz_integrations', __NAMESPACE__ . '\\provide_cmplz_integration' );
-		function provide_cmplz_integration( array $integrations ): array {
-			$integrations[cmplz_integration_name()] = array(
-				'constant_or_function' => __NAMESPACE__ . '\\cmplz_integration_name',
-				'label'                => __( 'Helsinki Askem', 'wordpress-helfi-cookie-consent' ),
-				'firstparty_marketing' => false,
-			);
-
-			return $integrations;
-		}
-
-		\add_filter( 'cmplz_integration_path', __NAMESPACE__ . '\\provide_cmplz_integration_path', 10, 2 );
-		function provide_cmplz_integration_path( string $path, string $integration ): string {
-			return cmplz_integration_name() === $integration
-				? \plugin_dir_path( __FILE__ ) . 'complianz/askem.php'
-				: $path;
-		}
+		\add_action(
+			'helsinki_feedback_buttons_setup',
+			__NAMESPACE__ . '\\provide_askem_placeholder'
+		);
 	}
 }
 
-function cmplz_integration_name(): string {
-	return 'helsinki_theme_askem';
+function provide_askem_placeholder( Feedback_Buttons_Setup $setup ): void {
+	$placeholder = \apply_filters(
+		'wordpress_helfi_cookie_consent_script_placeholder',
+		'',
+		$setup->script()
+	);
+
+	if ( $placeholder ) {
+		$setup->enable_script( false );
+
+		$attributes = array(
+			'src' => \esc_url( $setup->script() ),
+		);
+
+		$setup->prepend_html(
+			sprintf(
+				'<div class="wp-cookie-consent-script has-placeholder" data-wp-cookie-consent-script="%1$s">%2$s</div>',
+				htmlspecialchars( json_encode( $attributes ) ),
+				\wp_kses_post( $placeholder )
+			)
+		);
+	}
 }
 
 \add_action( 'helsinki_theme_setup_ready', __NAMESPACE__ . '\\init', 10 );

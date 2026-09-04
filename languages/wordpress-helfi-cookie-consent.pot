@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WordPress Helsinki Cookie Consent\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-06 12:27+0000\n"
+"POT-Creation-Date: 2026-08-11 07:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,12 +16,20 @@ msgstr ""
 "X-Loco-Version: 2.8.0; wp-6.7.2; php-8.3.20\n"
 "X-Domain: wordpress-helfi-cookie-consent"
 
+#: features/settings/reading/class-about-website-page-field.php:22
+msgid "About the website page"
+msgstr ""
+
+#: features/placeholders/class-placeholder-categories.php:37
+msgid "and"
+msgstr ""
+
 #: features/models/types/class-cache-storage-cookie-type.php:36
 msgid "Cache Storage"
 msgstr ""
 
 #. Author of the plugin
-#: features/pages/class-custom-page-hooks.php:156
+#: features/pages/class-custom-page-hooks.php:173
 msgid "City of Helsinki"
 msgstr ""
 
@@ -29,20 +37,40 @@ msgstr ""
 msgid "Cookie"
 msgstr ""
 
+#: features/settings/reading/class-cookie-policy-page-field.php:22
+msgid "Cookie policy page"
+msgstr ""
+
 #: features/pages/class-nav-menu-policy-pages-added-notice.php:43
 #, php-format
 msgid "Cookie policy pages added to the \"%s\" navigation menu."
 msgstr ""
 
-#: features/pages/class-cookie-policy-page.php:40
+#: features/pages/class-cookie-policy-page.php:43
 msgid "Cookie settings"
+msgstr ""
+
+#: features/settings/reading/class-enable-custom-pages-field.php:22
+msgid "Custom pages"
+msgstr ""
+
+#: features/settings/reading/class-enable-custom-pages-field.php:37
+msgid "Enable custom pages"
+msgstr ""
+
+#: features/settings/reading/class-enable-custom-pages-field.php:42
+msgid "Enabling custom pages disables the default page paths."
 msgstr ""
 
 #: features/models/categories/class-functional-cookie-category.php:44
 msgid "Functional"
 msgstr ""
 
-#: features/pages/init.php:91
+#: integrations/helsinkiteema/init.php:54
+msgid "Helsinki Askem"
+msgstr ""
+
+#: features/pages/init.php:93
 msgid "Helsinki Cookie Consent"
 msgstr ""
 
@@ -69,8 +97,43 @@ msgid ""
 "website or across several websites for similar marketing purposes."
 msgstr ""
 
-#: features/pages/class-about-page.php:111
+#: features/pages/class-about-page.php:152
 msgid "Open the cookie settings"
+msgstr ""
+
+#: features/placeholders/content/class-iframe-placeholder.php:96
+#: features/placeholders/content/class-script-placeholder.php:64
+msgctxt "placeholder notice button"
+msgid "Accept required cookies"
+msgstr ""
+
+#: features/placeholders/content/class-iframe-placeholder.php:74
+msgctxt "placeholder notice button"
+msgid "See content on external site"
+msgstr ""
+
+#: features/placeholders/content/class-script-placeholder.php:46
+#, php-format
+msgctxt "placeholder notice text"
+msgid "Enabling the usage of %1$s cookies will allow you to share your input."
+msgstr ""
+
+#: features/placeholders/content/class-iframe-placeholder.php:51
+#, php-format
+msgctxt "placeholder notice text"
+msgid ""
+"This content is hosted by %1$s. To see the content, switch over to the "
+"external site or accept the usage of %2$s cookies."
+msgstr ""
+
+#: features/placeholders/content/class-iframe-placeholder.php:34
+msgctxt "placeholder notice title"
+msgid "Content cannot be displayed"
+msgstr ""
+
+#: features/placeholders/content/class-script-placeholder.php:34
+msgctxt "placeholder notice title"
+msgid "Would you like to give feedback on this page?"
 msgstr ""
 
 #: features/notices/class-missing-cookie-provider-notice.php:40
@@ -86,6 +149,11 @@ msgstr ""
 
 #: features/models/categories/class-preferences-cookie-category.php:44
 msgid "Preferences"
+msgstr ""
+
+#: features/settings/reading/class-about-website-page-field.php:37
+#: features/settings/reading/class-cookie-policy-page-field.php:37
+msgid "Select a page"
 msgstr ""
 
 #: features/models/types/class-session-storage-cookie-type.php:36
@@ -128,6 +196,7 @@ msgid "Unknown"
 msgstr ""
 
 #. Name of the plugin
+#: features/settings/reading/class-reading-settings.php:17
 msgid "WordPress Helsinki Cookie Consent"
 msgstr ""
 

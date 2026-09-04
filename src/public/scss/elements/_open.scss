@@ -1,0 +1,24 @@
+#wp-cookie-consent-open {
+  background: none;
+  border: none;
+  color: currentColor;
+  cursor: pointer;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: normal;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+
+  text-decoration: var(--anchor-text-decoration, underline);
+  text-decoration-thickness: var(--anchor-text-decoration-thickness, .0625rem);
+  text-underline-offset: 10%;
+
+  &:hover {
+    --anchor-text-decoration-thickness: 0.125rem;
+  }
+
+  &:focus {
+    outline: currentColor solid 3px;
+  }
+}

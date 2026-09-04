@@ -16,6 +16,7 @@ use CityOfHelsinki\WordPress\CookieConsent\Features\Interfaces\Known_Cookie_Data
 final class Cookie_Repository
 {
 	private array $cookies;
+	private array $provider_categories;
 
 	public function __construct(
 		private Cookie_Database $database,
@@ -28,6 +29,7 @@ final class Cookie_Repository
 	public function refresh(): void
 	{
 		$this->cookies = array();
+		$this->provider_categories = array();
 	}
 
 	public function list_cookies(): array
@@ -44,11 +46,35 @@ final class Cookie_Repository
 		return $this->cookies;
 	}
 
+	public function provider_categories(): array
+	{
+		if ( ! $this->provider_categories ) {
+			$this->provider_categories = array_reduce(
+				$this->list_cookies(),
+				function( array $out, Cookie_Adapter $cookie ): array {
+					if ( ! isset( $out[$cookie->issuer()] ) ) {
+						$out[$cookie->issuer()] = array();
+					}
+
+					$category = $cookie->category();
+					if ( ! isset( $out[$cookie->issuer()][$category->name()] ) ) {
+						$out[$cookie->issuer()][$category->name()] = $category;
+					}
+
+					return $out;
+				},
+				array()
+			);
+		}
+
+		return $this->provider_categories;
+	}
+
 	private function create_known_cookies(): array
 	{
 		return array_reduce(
 			$this->known_cookies->list(),
-			function( array $cookies, Known_Cookie_Data $data ) {
+			function( array $cookies, Known_Cookie_Data $data ): array {
 				$cookie = $this->factory->create_known_cookie( $data );
 
 				$key = $cookie->type()->name() . $cookie->name();
@@ -64,7 +90,7 @@ final class Cookie_Repository
 	{
 		return array_reduce(
 			$this->database->cookies(),
-			function( array $cookies, mixed $data ) {
+			function( array $cookies, mixed $data ): array {
 				$cookie = $this->create_cookie_adapter( $data );
 
 				$key = $cookie->type()->name() . $cookie->name();
@@ -90,7 +116,7 @@ final class Cookie_Repository
 			),
 			array_reduce(
 				$this->list_cookies(),
-				function( array $sorted, Cookie_Adapter $cookie ) {
+				function( array $sorted, Cookie_Adapter $cookie ): array {
 					$category = $cookie->category();
 
 					if ( ! isset( $sorted[$category->name()] ) ) {
