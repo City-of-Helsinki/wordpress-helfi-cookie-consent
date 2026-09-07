@@ -6,7 +6,7 @@ WP Implementation of the standalone version of the [HDS CookieConsent](https://h
 
 Source: `/assets/public`
 
-- `js/scripts(.min).js` determines current cookie handler and creates `hds.CookieConsentCore` using the inline `HelfiCookieConsent` configuration variable.
+- `js/scripts(.min).js` creates `hds.CookieConsentCore` using the inline `HelfiCookieConsent` configuration variable.
 - `js/vendor(.min).js` contains `hds-js/standalone/cookieConsent/index.js`.
 
 ## Features
@@ -31,14 +31,6 @@ Source: `/features/cookies`
 **Cookies**
 
 - `helfi-cookie-consents` from `HDS_Cookie_Consent`
-
-### Notices
-
-Source: `/features/notices`
-
-- Handles displaying `admin_notices` on action.
-- Additional notices can be displayed by `do_action( 'wordpress_helfi_cookie_consent_add_admin_notice', Admin_Notice $notice )` before `admin_notices`.
-- Displays `Missing_Cookie_Provider_Notice`, if `wordpress_helfi_cookie_consent_has_cookie_provider` is `false`.
 
 ### Pages
 
@@ -88,20 +80,6 @@ Source: `/features/settings`
 - Policy content is automatically **appended** using `the_content` filter to the main content of the selected page. The content **must** be within [The Loop](https://developer.wordpress.org/themes/classic-themes/basics/the-loop/).
 
 ## Integrations
-
-### Complianz – GDPR/CCPA Cookie Consent
-
-From: [complianz.io](https://complianz.io/) and [Plugin Directory](https://wordpress.org/plugins/complianz-gdpr/).
-
-Source: `/integrations/complianz`
-
-- The plugin uses Complianz as a cookie data provider.
-- Provides the cookies identified by Complianz to the CookieConsent component.
-- Disables the default Complianz cookie banner, cookie banner styles, and replaces the `cookie-statement` document with CookieConsent container.
-- The JavaScript `complianz_cookies_handler` function acts as an adapter between Complianz and CookieConsent scripts.
-- Provides implementation of `Cookie_Database` to `wordpress_helfi_cookie_consent_cookie_database`.
-- Provides implementation of `Cookie_Adapter_Factory` to  `wordpress_helfi_cookie_consent_cookie_adapter_factory`.
-- Flags `wordpress_helfi_cookie_consent_has_cookie_provider` as `true`.
 
 ### Helsinkiteema
 
