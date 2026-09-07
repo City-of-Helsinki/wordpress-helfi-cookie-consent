@@ -66,23 +66,12 @@
       }));
     }
     function initCookieConsent(config) {
-      let {
-        cookiesHandler
-      } = config || {};
-      let handlers = {
-        complianz: createComplianzAdapter,
-        none: noCookiesHandler
-      };
-      if (!handlers.hasOwnProperty(cookiesHandler)) {
-        cookiesHandler = 'none';
-      }
       createCookieConsent(config).then(cookieConsent => {
         const facade = CookieConsentFacade({
           ...config,
           cookieConsent
         });
         initBannerButton(facade);
-        handlers[cookiesHandler](facade);
         createIframeLoaders(facade);
         createScriptLoaders(facade);
         window.addEventListener(CONSENT_GRANTED, event => facade.grant(event.detail.group));
@@ -140,9 +129,6 @@
       };
       handleConsentChanges();
       window.addEventListener(CONSENT_CHANGED, handleConsentChanges);
-    }
-    function noCookiesHandler() {
-      console.error('no cookies handler');
     }
     function createCookieConsent({
       routes,

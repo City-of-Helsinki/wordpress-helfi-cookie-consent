@@ -73,17 +73,6 @@
     }
 
     function initCookieConsent(config) {
-      let {cookiesHandler} = config || {};
-
-      let handlers = {
-        complianz: createComplianzAdapter,
-        none: noCookiesHandler,
-      };
-
-      if (! handlers.hasOwnProperty(cookiesHandler)) {
-        cookiesHandler = 'none';
-      }
-
       createCookieConsent(config)
         .then(cookieConsent => {
           const facade = CookieConsentFacade({
@@ -93,7 +82,6 @@
 
           initBannerButton(facade);
 
-          handlers[cookiesHandler](facade);
           createIframeLoaders(facade);
           createScriptLoaders(facade);
 
@@ -173,10 +161,6 @@
       handleConsentChanges();
 
       window.addEventListener(CONSENT_CHANGED, handleConsentChanges);
-    }
-
-    function noCookiesHandler() {
-      console.error('no cookies handler');
     }
 
     function createCookieConsent({routes, options}) {

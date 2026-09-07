@@ -52,7 +52,6 @@ function rest_config(): array {
 			'settingsPageSelector' => \esc_attr( settings_element_id() ),
 			'submitEvent' => true,
 		),
-		'cookiesHandler' => \esc_attr( cookies_handler() ),
 	);
 
 	$namespace = route_namespace();
@@ -74,10 +73,6 @@ function settings_element_id(): string {
 	$id = \apply_filters( 'wordpress_helfi_cookie_consent_settings_element_id', '' );
 
 	return $id ? '#' . $id : '';
-}
-
-function cookies_handler(): string {
-	return \apply_filters( 'wordpress_helfi_cookie_consent_cookies_handler', '' );
 }
 
 function current_language(): string {
