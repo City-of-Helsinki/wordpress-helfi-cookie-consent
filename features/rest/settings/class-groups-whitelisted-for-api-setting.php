@@ -23,6 +23,11 @@ final class Groups_Whitelisted_For_Api_Setting implements Setting_Interface
 
 	public function value(): mixed
 	{
-		return array();
+		return array_values(
+			array_map(
+				fn( $cookie_list ) => $cookie_list->name(),
+				$this->repository->cookie_lists()->all()
+			)
+		);
 	}
 }
