@@ -71,7 +71,7 @@
       } = config || {};
       let handlers = {
         complianz: createComplianzAdapter,
-        none: noCookiesHandler
+        none: () => {}
       };
       if (!handlers.hasOwnProperty(cookiesHandler)) {
         cookiesHandler = 'none';
@@ -140,9 +140,6 @@
       };
       handleConsentChanges();
       window.addEventListener(CONSENT_CHANGED, handleConsentChanges);
-    }
-    function noCookiesHandler() {
-      console.error('no cookies handler');
     }
     function createCookieConsent({
       routes,
