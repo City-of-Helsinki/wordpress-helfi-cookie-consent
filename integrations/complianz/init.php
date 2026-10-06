@@ -55,11 +55,6 @@ function init(): void {
 			__NAMESPACE__ . '\\filter_rest_settings',
 			10, 1
 		);
-
-		\add_filter(
-			'wordpress_helfi_cookie_consent_has_cookie_provider',
-			'__return_true'
-		);
 	}
 }
 

@@ -32,14 +32,6 @@ Source: `/features/cookies`
 
 - `helfi-cookie-consents` from `HDS_Cookie_Consent`
 
-### Notices
-
-Source: `/features/notices`
-
-- Handles displaying `admin_notices` on action.
-- Additional notices can be displayed by `do_action( 'wordpress_helfi_cookie_consent_add_admin_notice', Admin_Notice $notice )` before `admin_notices`.
-- Displays `Missing_Cookie_Provider_Notice`, if `wordpress_helfi_cookie_consent_has_cookie_provider` is `false`.
-
 ### Pages
 
 Source: `/features/pages`
@@ -101,7 +93,6 @@ Source: `/integrations/complianz`
 - The JavaScript `complianz_cookies_handler` function acts as an adapter between Complianz and CookieConsent scripts.
 - Provides implementation of `Cookie_Database` to `wordpress_helfi_cookie_consent_cookie_database`.
 - Provides implementation of `Cookie_Adapter_Factory` to  `wordpress_helfi_cookie_consent_cookie_adapter_factory`.
-- Flags `wordpress_helfi_cookie_consent_has_cookie_provider` as `true`.
 
 ### Helsinkiteema
 
@@ -224,3 +215,5 @@ The filter can be used in both plugins and themes.
 The cookie consent plugin currently only supports Complianz as the general cookie data provider and cookie blocker. Refer to the [developer documentation](https://complianz.io/developers-guide-for-third-party-integrations/) for integrating your cookie issuing functionality with Complianz and to have your cookie blocked automatically.
 
 See the HDS CookieConsent [component documentation](https://hds.hel.fi/components/cookie-consent/api/#events), if you need to listen to the consent events dispatched by the consent banner.
+
+The HDS CookieConsent component can destroy unknown cookies on page load, but ideally the site should not place any cookies before user has consented to their usage.
