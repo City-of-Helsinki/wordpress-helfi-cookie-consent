@@ -3,7 +3,7 @@
     const CONSENT_CHANGED = 'hds-cookie-consent-changed';
     const CONSENT_GRANTED = 'wp-cookie-consent-granted';
 
-    initCookieConsent(config);
+    window.addEventListener('load', (event) => initCookieConsent(config));
 
     function CookieConsentFacade({cookieConsent}) {
       return {
